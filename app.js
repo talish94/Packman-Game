@@ -11,7 +11,7 @@ $(document).ready(function() {
 	context = canvas.getContext("2d");
 	Start();
 });
-
+//comments
 function Start() {
 	board = new Array();
 	score = 0;
