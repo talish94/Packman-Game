@@ -10,10 +10,12 @@
     <script type="text/javascript" src="./app.js"></script>
     <script type="text/javascript" src="./modalDialog.js"></script>
     <script type="text/javascript" src="./settings.js"></script>
+    <script type="text/javascript" src="./jquery.dialog.js"></script>
+
     <!-- <script type="text/javascript" src="./register.js"></script> -->
     <!-- <script src="js/signup-form.js"></script> -->
     <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
     <!-- <script src="../dist/jquery.validate.js"></script>
     <script src="../lib/jquery.js"></script> -->
 </head>
@@ -24,9 +26,9 @@
         <div id="header">
             <div id="menu">
                 <ul>
-                    <li><a href="#welcome">Welcome</a></li>
-                    <li><a href="#register" onclick="register()">Register</a></li>
-                    <li><a href="#login" onclick="login()">Login</a></li>
+                    <li><a href="#welcome" onclick="showWelcome()">Welcome</a></li>
+                    <li><a href="#register" onclick="showRegister()">Register</a></li>
+                    <li><a href="#login" onclick="showLogin()">Login</a></li>
                     <li><a href="#settings" onclick="showSettings()">Game Settings</a></li>
                     <li><a id="about">About</a></li>
                 </ul>
@@ -40,11 +42,11 @@
                     <br /> Try to eat as many points as you can!
                     <br />
                 </h1>
-                <button href="#a" onclick="register()">Register</button>
+                <button href="#a" onclick="showRegister()">Register</button>
                 <br />
-                <button href="#a" onclick="login()">Login</button>
+                <button href="#a" onclick="showLogin()">Login</button>
             </section>
-            <section id="register">
+            <section id="register" style="display:none;">
                 <form class="cmxform" id="signupForm" method="get" action="" name="signupForm">
                     <fieldset>
                         <legend>Validating a complete form</legend>
@@ -187,5 +189,37 @@
         $("#datepicker").datepicker();
     });
 </script> -->
+<script>
+</script>
+<script>
+    function showSettings() {
+        document.getElementById("settings").style.display = "block";
+        document.getElementById("login").style.display = "none";
+        document.getElementById("register").style.display = "none";
+        document.getElementById("welcome").style.display = "none";
+    }
+
+    function showLogin() {
+        document.getElementById("settings").style.display = "none";
+        document.getElementById("login").style.display = "block";
+        document.getElementById("register").style.display = "none";
+        document.getElementById("welcome").style.display = "none";
+    }
+
+    function showRegister() {
+        document.getElementById("settings").style.display = "none";
+        document.getElementById("login").style.display = "none";
+        document.getElementById("register").style.display = "block";
+        document.getElementById("welcome").style.display = "none";
+    }
+
+    function showWelcome() {
+        document.getElementById("settings").style.display = "none";
+        document.getElementById("login").style.display = "none";
+        document.getElementById("register").style.display = "none";
+        document.getElementById("welcome").style.display = "block";
+    }
+</script>
+
 
 </html>
