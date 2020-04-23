@@ -43,43 +43,6 @@ body {
     background-color: #4CAF50;
 }
 
-
-/* Add responsiveness - will automatically display the navbar vertically instead of horizontally on screens less than 500 pixels */
-
-@media screen and (max-width: 500px) {
-    .navbar a {
-        float: none;
-        display: block;
-    }
-}
-
-.zoom:hover {
-    transform: scale(1.5);
-    /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
-}
-
-#photos img:hover {
-    transform: scale(1.2);
-    border-radius: 4px;
-}
-
-.marquee {
-    overflow: hidden;
-    position: relative;
-    animation: MarqueeLeft linear 18s infinite;
-    animation-duration: 4s;
-    animation-direction: left
-}
-
-@keyframes MarqueeLeft {
-    50% {
-        right: -20%
-    }
-    100% {
-        right: 100%
-    }
-}
-
 #text_wrapper {
     margin: 40px;
     border: 1px solid #ccc;

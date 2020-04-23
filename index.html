@@ -3,9 +3,19 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
+    <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="./jquery-3.4.1.slim.min.js"></script>
     <script type="text/javascript" src="./app.js"></script>
+    <script type="text/javascript" src="./modalDialog.js"></script>
+    <script type="text/javascript" src="./settings.js"></script>
+    <!-- <script type="text/javascript" src="./register.js"></script> -->
+    <!-- <script src="js/signup-form.js"></script> -->
+    <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- <script src="../dist/jquery.validate.js"></script>
+    <script src="../lib/jquery.js"></script> -->
 </head>
 
 <body>
@@ -17,6 +27,7 @@
                     <li><a href="#welcome">Welcome</a></li>
                     <li><a href="#register" onclick="register()">Register</a></li>
                     <li><a href="#login" onclick="login()">Login</a></li>
+                    <li><a href="#settings" onclick="showSettings()">Game Settings</a></li>
                     <li><a id="about">About</a></li>
                 </ul>
             </div>
@@ -33,11 +44,59 @@
                 <br />
                 <button href="#a" onclick="login()">Login</button>
             </section>
-            <section id="register" display="none">
+            <section id="register">
+                <form class="cmxform" id="signupForm" method="get" action="" name="signupForm">
+                    <fieldset>
+                        <legend>Validating a complete form</legend>
+                        <p>
+                            <label for="username">Username</label>
+                            <input id="username" name="username" type="text" minlength="2" required>
+                        </p>
+                        <p>
+                            <label for="password">Password</label>
+                            <input id="password" name="password" type="password">
+                        </p>
+                        <p>
+                            <label for="confirm_password">Confirm password</label>
+                            <input id="confirm_password" name="confirm_password" type="password">
+                        </p>
+
+                        <p>
+                            <label for="firstname">First name</label>
+                            <input id="firstname" name="firstname" type="text">
+                        </p>
+                        <p>
+                            <label for="lastname">Last name</label>
+                            <input id="lastname" name="lastname" type="text">
+                        </p>
+                        <p>
+                            <label for="email">Email</label>
+                            <input id="email" name="email" type="email">
+                        </p>
+
+                        <!-- <p>
+                            <label for="birthdate">Birthdate</label>
+                            <input type="text" id="datepicker">
+                        </p> -->
+
+                        <p>
+                            <label for="birthdate">Birthdate</label>
+                            <input type="date" id="dated">
+                        </p>
+                        <p>
+                            <label for="agree">Please agree to our policy</label>
+                            <input type="checkbox" class="checkbox" id="agree" name="agree">
+                        </p>
+
+                        <p>
+                            <input class="submit" type="submit" onclick="saveUserSignUpForm()" value="Submit">
+                        </p>
+                    </fieldset>
+                </form>
             </section>
-            <section id="login" display="none">
+            <section id="login" style="display:none;">
             </section>
-            <section id="about" display="none">
+            <section id="aboutSec" display=none>
                 <!-- The Modal -->
                 <div id="myModal" class="modal">
                     <!-- Modal content -->
@@ -51,9 +110,10 @@
                     </div>
                 </div>
             </section>
-            <section id="settings" display="none">
+            <section id="settings" style="display:none;">
+                <h1>Settings For Playing:</h1>
                 <p>Please enter the keys you want to play with:</p>
-                <button id="left" onclick="leftFunction()">Choose Left Key</button>
+                <button id="left" value="" onclick="leftFunction()">Choose Left Key</button>
                 <br>
                 <button id="right" onclick="rightFunction()">Choose Right Key</button>
                 <br>
@@ -64,27 +124,31 @@
                 <label>Please enter the number of balls: (max:90 , min:50)</label>
                 <input id="numberOfBalls" type="text" value="50" name="numberOfBalls"><br>
                 <label>Please enter the color for five point ball:</label>
-                <input id="fivePointBall" type="color" name="fivePointBall"><br>
+                <input id="fivePointBallColor" type="color" value="#ff0080" name="fivePointBall"><br>
                 <label>Please enter the color for fifth teen point ball:</label>
-                <input id="fifthTeenPointBall" type="color" name="fifthTeenPointBall"><br>
+                <input id="fifthTeenPointBallColor" type="color" value="#ff0080" name="fifthTeenPointBall"><br>
                 <label>Please enter the color for twenty five point ball:</label>
-                <input id="twentyFivePointBall" type="color" name="twentyFivePointBall"><br>
-                <br>
+                <input id="twentyFivePointBallColor" type="color" value="#ff0080" name="twentyFivePointBall"><br>
+                <label>Please enter the time in seconds for the game: (min:60 seconds)</label>
+                <input id="timeForGame" type="text" value="60" name="timeForGame"><br>
+                <label>Please enter the number of monsters for the game: (min:1 , max:4)</label>
+                <input id="numberOfMonsters" type="text" value="1" name="numberOfMonsters"><br>
+                <button id=randomSettings onclick="randomSettings()"> Choose Random Settings</button><br />
                 <button id="start" onclick="start()">Start Game</button>
             </section>
             <br />
             <br />
             <br />
         </div>
-        <div id="score">
+        <div id="score" style="display:none;">
             <label for="lblScore">SCORE:</label>
             <input id="lblScore" type="text" />
         </div>
-        <div id="time">
+        <div id="time" style="display:none;">
             <label for="lblTime">TIME:</label>
             <input id="lblTime" type="text" />
         </div>
-        <div id="game">
+        <div id="game" style="display:none;">
             <canvas id="canvas" height="600" width="600"></canvas>
         </div>
 </body>
@@ -113,78 +177,15 @@
         var code = e.keyCode || e.which;
         if (code == 27) $('#myModal').hide();
     });
-</script>
 
-<script>
-    var downKey;
-    var upKey;
-    var leftKey;
-    var rightKey;
-    //left key choose
-    function leftFunction() {
-        document.addEventListener("keydown", leftChoosen);
-        document.getElementById("left").innerText = "choose now key for left move";
-    }
-
-    function leftChoosen(e) {
-        if (leftKey != e.code && !inputCheck(e)) {
-            return;
-        }
-        leftKey = e.code;
-        document.getElementById("left").innerText = e.code;
-        document.removeEventListener("keydown", leftChoosen);
-    }
-    //right key choose
-    function rightFunction() {
-        document.addEventListener("keydown", rightChoosen);
-        document.getElementById("right").innerText = "choose now key for right move";
-    }
-
-    function rightChoosen(e) {
-        if (rightKey != e.code && !inputCheck(e)) {
-            return;
-        }
-        rightKey = e.code;
-        document.getElementById("right").innerText = e.code;
-        document.removeEventListener("keydown", rightChoosen);
-    }
-    //up key choose
-    function upFunction() {
-        document.addEventListener("keydown", upChoosen);
-        document.getElementById("up").innerText = "choose now key for up move";
-    }
-
-    function upChoosen(e) {
-        if (upKey != e.code && !inputCheck(e)) {
-            return;
-        }
-        upKey = e.code;
-        document.getElementById("up").innerText = e.code;
-        document.removeEventListener("keydown", upChoosen);
-    }
-    //down key choose
-    function downFunction() {
-        document.addEventListener("keydown", downChoosen);
-        document.getElementById("down").innerText = "choose now key for down move";
-    }
-
-    function downChoosen(e) {
-        if (downKey != e.code && !inputCheck(e)) {
-            return;
-        }
-        downKey = e.code;
-        document.getElementById("down").innerText = e.code;
-        document.removeEventListener("keydown", downChoosen);
-    }
-    // this function checks if the user already choose this input.
-    function inputCheck(e) {
-        if (e.code == downKey || e.code == upKey || e.code == leftKey ||
-            e.code == rightKey) {
-            alert("please choose diffrent key! you have choose this key already");
-            return false;
-        }
-        return true;
+    function showSettings() {
+        document.getElementById("settings").style.display = "block";
     }
 </script>
+<!-- <script>
+    $(function() {
+        $("#datepicker").datepicker();
+    });
+</script> -->
 
 </html>
