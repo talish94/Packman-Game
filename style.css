@@ -1,0 +1,184 @@
+body {
+    background-color: #008080;
+    font-family: calibri;
+    font-size: 100%;
+    text-align: center;
+    -webkit-animation: bgcolor 20s infinite;
+    animation: bgcolor 10s infinite;
+    -webkit-animation-direction: alternate;
+    animation-direction: alternate;
+}
+
+.navbar {
+    width: 100%;
+    background-color: #008B8B;
+    overflow: auto;
+    float: center;
+    position: fixed;
+}
+
+
+/* Navbar links */
+
+.navbar a {
+    float: center;
+    text-align: center;
+    padding: 30px;
+    color: white;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+
+/* Navbar links on mouse-over */
+
+.navbar a:hover {
+    background-color: #7FFFD4;
+}
+
+
+/* Current/active navbar link */
+
+.active {
+    background-color: #4CAF50;
+}
+
+
+/* Add responsiveness - will automatically display the navbar vertically instead of horizontally on screens less than 500 pixels */
+
+@media screen and (max-width: 500px) {
+    .navbar a {
+        float: none;
+        display: block;
+    }
+}
+
+.zoom:hover {
+    transform: scale(1.5);
+    /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+#photos img:hover {
+    transform: scale(1.2);
+    border-radius: 4px;
+}
+
+.marquee {
+    overflow: hidden;
+    position: relative;
+    animation: MarqueeLeft linear 18s infinite;
+    animation-duration: 4s;
+    animation-direction: left
+}
+
+@keyframes MarqueeLeft {
+    50% {
+        right: -20%
+    }
+    100% {
+        right: 100%
+    }
+}
+
+#text_wrapper {
+    margin: 40px;
+    border: 1px solid #ccc;
+}
+
+#text {
+    outline: none;
+    margin: 10px;
+    min-height: 200px;
+}
+
+#text img {
+    width: 20px;
+}
+
+button {
+    outline: none;
+    margin: 10px;
+    min-height: 40px;
+    min-width: 400px;
+    background-color: #6495ED;
+    font-size: 20px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333333;
+    text-align: center;
+}
+
+li {
+    display: inline-block;
+}
+
+li a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #111111;
+}
+
+
+/* The Modal (background) */
+
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+
+/* Modal Content/Box */
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    /* Could be more or less, depending on screen size */
+}
+
+
+/* The Close Button */
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

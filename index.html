@@ -1,23 +1,190 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<script src="./jquery-3.4.1.slim.min.js"></script>
-		<script type="text/javascript" src="./app.js"></script>
-	</head>
 
-	<body>
-		<div id="score">
-			<label for="lblScore">SCORE:</label>
-			<input id="lblScore" type="text" />
-		</div>
-		<div id="time">
-			<label for="lblTime">TIME:</label>
-			<input id="lblTime" type="text" />
-		</div>
-		<div id="test">
-		</div>
-		<div id="game">
-			<canvas id="canvas" height="600" width="600"></canvas>
-		</div>
-	</body>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="./jquery-3.4.1.slim.min.js"></script>
+    <script type="text/javascript" src="./app.js"></script>
+</head>
+
+<body>
+    <div>
+        <img src="logo2.jpg" position="sticky" width=1300 height="200" width="20%" height="10%"></img>
+        <div id="header">
+            <div id="menu">
+                <ul>
+                    <li><a href="#welcome">Welcome</a></li>
+                    <li><a href="#register" onclick="register()">Register</a></li>
+                    <li><a href="#login" onclick="login()">Login</a></li>
+                    <li><a id="about">About</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="content">
+            <section id="welcome">
+                <h1>Welcome to the Pacman Game! &#128516; Please Login or register for playing!
+                    <br /> First, you will have to choose your play settings in oreder to play.
+                    <br /> Be careful from the monsters around you...
+                    <br /> Try to eat as many points as you can!
+                    <br />
+                </h1>
+                <button href="#a" onclick="register()">Register</button>
+                <br />
+                <button href="#a" onclick="login()">Login</button>
+            </section>
+            <section id="register" display="none">
+            </section>
+            <section id="login" display="none">
+            </section>
+            <section id="about" display="none">
+                <!-- The Modal -->
+                <div id="myModal" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <p>The creators of the game:Tair Cohen and Tali Shwarz
+                            <br /> The jQuery Plugin that we have used are:
+                            <br /> The Template that we have used are:
+                            <br /> The difficulties we encountered in the exercise are:
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <section id="settings" display="none">
+                <p>Please enter the keys you want to play with:</p>
+                <button id="left" onclick="leftFunction()">Choose Left Key</button>
+                <br>
+                <button id="right" onclick="rightFunction()">Choose Right Key</button>
+                <br>
+                <button id="up" onclick="upFunction()">Choose Up Key</button>
+                <br>
+                <button id="down" onclick="downFunction()">Choose Down Key</button>
+                <br>
+                <label>Please enter the number of balls: (max:90 , min:50)</label>
+                <input id="numberOfBalls" type="text" value="50" name="numberOfBalls"><br>
+                <label>Please enter the color for five point ball:</label>
+                <input id="fivePointBall" type="color" name="fivePointBall"><br>
+                <label>Please enter the color for fifth teen point ball:</label>
+                <input id="fifthTeenPointBall" type="color" name="fifthTeenPointBall"><br>
+                <label>Please enter the color for twenty five point ball:</label>
+                <input id="twentyFivePointBall" type="color" name="twentyFivePointBall"><br>
+                <br>
+                <button id="start" onclick="start()">Start Game</button>
+            </section>
+            <br />
+            <br />
+            <br />
+        </div>
+        <div id="score">
+            <label for="lblScore">SCORE:</label>
+            <input id="lblScore" type="text" />
+        </div>
+        <div id="time">
+            <label for="lblTime">TIME:</label>
+            <input id="lblTime" type="text" />
+        </div>
+        <div id="game">
+            <canvas id="canvas" height="600" width="600"></canvas>
+        </div>
+</body>
+<script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+    // Get the button that opens the modal
+    var btn = document.getElementById("about");
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+            modal.style.display = "block";
+        }
+        // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+            modal.style.display = "none";
+        }
+        // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    $(document).keydown(function(e) {
+        var code = e.keyCode || e.which;
+        if (code == 27) $('#myModal').hide();
+    });
+</script>
+
+<script>
+    var downKey;
+    var upKey;
+    var leftKey;
+    var rightKey;
+    //left key choose
+    function leftFunction() {
+        document.addEventListener("keydown", leftChoosen);
+        document.getElementById("left").innerText = "choose now key for left move";
+    }
+
+    function leftChoosen(e) {
+        if (leftKey != e.code && !inputCheck(e)) {
+            return;
+        }
+        leftKey = e.code;
+        document.getElementById("left").innerText = e.code;
+        document.removeEventListener("keydown", leftChoosen);
+    }
+    //right key choose
+    function rightFunction() {
+        document.addEventListener("keydown", rightChoosen);
+        document.getElementById("right").innerText = "choose now key for right move";
+    }
+
+    function rightChoosen(e) {
+        if (rightKey != e.code && !inputCheck(e)) {
+            return;
+        }
+        rightKey = e.code;
+        document.getElementById("right").innerText = e.code;
+        document.removeEventListener("keydown", rightChoosen);
+    }
+    //up key choose
+    function upFunction() {
+        document.addEventListener("keydown", upChoosen);
+        document.getElementById("up").innerText = "choose now key for up move";
+    }
+
+    function upChoosen(e) {
+        if (upKey != e.code && !inputCheck(e)) {
+            return;
+        }
+        upKey = e.code;
+        document.getElementById("up").innerText = e.code;
+        document.removeEventListener("keydown", upChoosen);
+    }
+    //down key choose
+    function downFunction() {
+        document.addEventListener("keydown", downChoosen);
+        document.getElementById("down").innerText = "choose now key for down move";
+    }
+
+    function downChoosen(e) {
+        if (downKey != e.code && !inputCheck(e)) {
+            return;
+        }
+        downKey = e.code;
+        document.getElementById("down").innerText = e.code;
+        document.removeEventListener("keydown", downChoosen);
+    }
+    // this function checks if the user already choose this input.
+    function inputCheck(e) {
+        if (e.code == downKey || e.code == upKey || e.code == leftKey ||
+            e.code == rightKey) {
+            alert("please choose diffrent key! you have choose this key already");
+            return false;
+        }
+        return true;
+    }
+</script>
+
 </html>
