@@ -1,13 +1,45 @@
 $.validator.setDefaults({
     submitHandler: function() {
-        alert("submitted!");
+        saveRegisterForm();
+        //alert("submitted!");
     }
 });
 
+function saveRegisterForm() {
+
+    var userName = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
+
+    // var firstname=document.getElementById("firstname").value;
+    // var lastname=document.getElementById("lastname").value;
+    // var email=document.getElementById("user_email").value;
+    // var birthday=document.getElementById("birthday").value;
+    // var date=birthday.split("-");
+    // var day=date[2];
+    // var month=date[1];
+    // var year=date[0];
+
+    //addedSuccess = addUserToArray(userName, password);
+
+    if (isUserameExists(userName)){ // username already exists in the system
+        window.alert("user name already exist. Please pick a new one and try again");
+        return false;
+    }
+    else { 
+        var newPerson = { username: getElementById("username"), password: getElementById("password") };
+        allUsers.push(newPerson);
+        //window.alert("User added successfully! Please log in now to play the game.");
+        showLogin();
+        return true;
+    }        
+}
+
+
+
 $().ready(function() {
 
-    var users = [];
-    users.push({ username: "p", password: "p" }); //default one.
+    //var allUsers = [];
+    //allUsers.push({ username: "p", password: "p" }); //default one.
    
 jQuery.validator.addMethod("notNumber", function(value, element, param) {
     var reg = /[0-9]/;

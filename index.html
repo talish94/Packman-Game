@@ -35,6 +35,8 @@
 </head>
 
 <body>
+
+    
     <div>
         <img src="logo2.jpg" position="sticky" width=1300 height="200" width="20%" height="10%"></img>
         <div id="header">
@@ -59,50 +61,10 @@
                 <button href="#a" onclick="showRegister()">Register</button>
                 <br />
                 <button href="#a" onclick="showLogin()">Login</button>
+
+                
             </section>
 
-            <!-- <section id="register" name="register" style="display:none;">
-                <form class="cmxform" id="signupForm" method="get" action="">
-                    <fieldset>
-                        <legend>Please sign up to play our pacmen :)</legend>
-                        <p>
-                            <label for="username">Username</label>
-                            <input id="username" name="username" type="text">
-                        </p>
-                        <p>
-                            <label for="password">Password</label>
-                            <input id="password" name="password" type="password">
-                        </p>
-                        <p>
-                            <label for="confirm_password">Confirm password</label>
-                            <input id="confirm_password" name="confirm_password" type="password">
-                        </p>
-
-                        <p>
-                            <label for="firstname">First name</label>
-                            <input id="firstname" name="firstname" type="text">
-                        </p>
-                        <p>
-                            <label for="lastname">Last name</label>
-                            <input id="lastname" name="lastname" type="text">
-                        </p>
-                        <p>
-                            <label for="email">Email</label>
-                            <input id="email" name="email" type="email">
-                        </p>
-                        <p>
-                            <label for="birthdate">Birthdate</label>
-                            <input type="date" id="dated">
-                        </p>
-                        <p>
-                            <label for="agree">Please agree to our policy</label>
-                            <input type="checkbox" class="checkbox" id="agree" name="agree">
-                        </p>
-
-                        <p> <input class="submit" type="submit" value="Submit"> </p>
-                    </fieldset>
-                </form>
-            </section> -->
             <section id="register" name="register" style="display:none;">
                 <div class="container">
                     <div class="col-md-6 col-md-offset-3">
@@ -112,23 +74,23 @@
                             </div>
                             <div class="panel-body">
                                 <form id="registration">
-                                    <input type="text" class="form-control" name="username" placeholder="Username" />
+                                    <input type="text" class="form-control" name="username" placeholder="Username" id="username"/>
                                     <br/>
                                     <input type="password" class="form-control" name="password" placeholder="Password" id="password" />
                                     <br/>
                                     <input type="password" class="form-control" name="confirm" placeholder="Confirm Password" />
                                     <br/>
-                                    <input type="text" class="form-control" name="fname" placeholder="First Name" />
+                                    <input type="text" class="form-control" name="fname" placeholder="First Name" id="fname"/>
                                     <br/>
-                                    <input type="text" class="form-control" name="lname" placeholder="Last Name" />
+                                    <input type="text" class="form-control" name="lname" placeholder="Last Name" id="lname"/>
                                     <br/>
-                                    <input type="text" class="form-control" name="email" placeholder="Email" />
+                                    <input type="text" class="form-control" name="email" placeholder="Email" id="email"/>
                                     <br/>
-                                    <input type="date" class="form-control" name="date" placeholder="Birthdate" />
+                                    <input type="date" class="form-control" name="date" placeholder="Birthdate" id="date"/>
                                     <br/>
                                     <br/>
                                     <br/>
-                                    <button type="submit" onclick=saveRegisterForm() class="btn btn-primary">Submit</button>
+                                    <button type="submit" id="submit" onclick=saveRegisterForm() class="btn btn-primary">Submit</button>
                                 </form>
                             </div>
                         </div>
@@ -143,7 +105,7 @@
                         <input type="t" name="usernameLogin" id="usernameLogin">
                         <label>Password :</label>
                         <input type="p" name="passwordLogin" id="passwordLogin">
-                        <input type="button" name="login" id="login" onclick=loginSuccess() value="login">
+                        <input type="button" name="login" id="login" onclick="loginSuccess()" value="login">
                     </form>
                 </section>
             </div>
@@ -270,13 +232,42 @@
 </script>
 
 <script>
+
+    window.onload = function() {
+        initialArray();
+    }
+
+    function initialArray(){
+
+    // var allUsers = [];
+    // allUsers.push({ username: "p", password: "p" }); //default one.};
+    // }
+
+        //were asked for a default user in the users' array:
+        var defultUser = { user_name: "p", password: "p"}
+        var allUsers = [defultUser];
+    }
+
+    // function addUserToArray(userName, passWord){
+
+    //     if(isUserameExists(userName)) // username already exists in the system
+    //         return false;
+
+    //     //else - adds new user to the system.
+    //     var newPerson = { username: getElementById("username"), password: getElementById("password") };
+
+    //     allUsers.push(newPerson);
+    //     return true;
+    // }
+
     function loginSuccess(){
-        var userName=document.getElementById("usernameLogin").value;
-        var password=document.getElementById("passwordLogin").value;
 
-        logedInSuccessfully = isExists(userName, password);
+        var usernameLogin = document.getElementById("usernameLogin").value;
+        var passwordLogin = document.getElementById("passwordLogin").value;
 
-        if(!isExists){ //user is not signed in to the system.
+        logedInSuccessfully = correctDetailsUser(usernameLogin, passwordLogin);
+
+        if(!logedInSuccessfully){ //user is not signed in to the system.
             window.alert("User name or password are incorrect. Please try again.")
         }
         else{
@@ -285,15 +276,13 @@
             //user_name=userName;
         }
     }
-</script>
 
-<script>
-    function isExists(usernameThis, passordThis) { //returns true if the user's details are correct.
+    function correctDetailsUser(usernameLogin, passwordLogin) { //returns true if the user's details are correct.
         var size = allUsers.length;
         for (i=0; i<size; i++){
             var currUser = allUsers[i];
-            if (currUser.username == usernameThis){
-                if(currUser.password == passordThis){
+            if (currUser.username == usernameLogin){
+                if(currUser.password == passwordLogin){
                     return true;
                 }
                 return false;
@@ -302,17 +291,51 @@
         return false;
     }
 
-function saveRegisterForm() {
-        
+    function isUserameExists (userName){
+            var size = allUsers.length;
+            for(i=0; i<length; i++){
+                var currUser = allUsers[i];
+
+                if(currUser.user_name == userName){
+                    return true;
+                }
+            }
+            return false;
+        }
+
+   function saveRegisterForm() {
+
+        var userName = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+
+        // var firstname=document.getElementById("firstname").value;
+        // var lastname=document.getElementById("lastname").value;
+        // var email=document.getElementById("user_email").value;
+        // var birthday=document.getElementById("birthday").value;
+        // var date=birthday.split("-");
+        // var day=date[2];
+        // var month=date[1];
+        // var year=date[0];
+
+        //addedSuccess = addUserToArray(userName, password);
+
+        if (isUserameExists(userName)){ // username already exists in the system
+            window.alert("user name already exist. Please pick a new one and try again");
+            return false;
+        }
+        else { 
+            var newPerson = { username: getElementById("username"), password: getElementById("password") };
+            allUsers.push(newPerson);
+            //window.alert("User added successfully! Please log in now to play the game.");
+            showLogin();
+            return true;
+        }        
+   }
     //var txtbox1=document.getElementById("txtbox1");
     //sessionStorage.setItem("name",txtbox1.value);
 
-    var newPerson = { username: getElementById("username"), password: getElementById("password") };
-    users.push(newPerson);
     //sessionStorage.setItem(getElementById("username"), getElementById("password"));
+    
 
-}
 </script>
-
-});
 </html>
