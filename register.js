@@ -106,3 +106,4 @@ if ($registrationForm.length) {
         }
     });
 }
+});
