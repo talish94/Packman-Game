@@ -12,6 +12,9 @@
     <script type="text/javascript" src="./settings.js"></script>
     <script type="text/javascript" src="./jquery.dialog.js"></script>
 
+    <script type="text/javascript" src="./login.js"></script>
+
+
     <!-- <script type="text/javascript" src="./register.js"></script> -->
     <!-- <script src="js/signup-form.js"></script> -->
     <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
@@ -96,8 +99,20 @@
                     </fieldset>
                 </form>
             </section>
-            <section id="login" style="display:none;">
-            </section>
+            <div id="content">
+
+                <section id="login" style="display:none;">
+                    <form class="form" method="post" action="#">
+                        <h2>Create Login Form Using jQuery</h2>
+                        <label>Email :</label>
+                        <input type="text" name="demail" id="email">
+                        <label>Password :</label>
+                        <input type="password" name="password" id="password">
+                        <input type="button" name="login" id="login" value="Login">
+                        </form>
+                </section>
+                </div>
+                
             <section id="aboutSec" display=none>
                 <!-- The Modal -->
                 <div id="myModal" class="modal">
