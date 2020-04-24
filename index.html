@@ -128,7 +128,7 @@
                                     <br/>
                                     <br/>
                                     <br/>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" onclick=saveRegisterForm() class="btn btn-primary">Submit</button>
                                 </form>
                             </div>
                         </div>
@@ -138,12 +138,12 @@
             <div id="content">
                 <section id="login" style="display:none;">
                     <form class="form" method="post" action="#">
-                        <h2>Create Login Form Using jQuery</h2>
+                        <h2>Please log in to your account</h2>
                         <label>UserName :</label>
-                        <input type="t" name="username" id="username">
+                        <input type="t" name="usernameLogin" id="usernameLogin">
                         <label>Password :</label>
-                        <input type="p" name="password" id="password">
-                        <input type="button" name="login" id="login" value="Login">
+                        <input type="p" name="passwordLogin" id="passwordLogin">
+                        <input type="button" name="login" id="login" onclick=loginSuccess() value="login">
                     </form>
                 </section>
             </div>
@@ -269,4 +269,50 @@
     }
 </script>
 
+<script>
+    function loginSuccess(){
+        var userName=document.getElementById("usernameLogin").value;
+        var password=document.getElementById("passwordLogin").value;
+
+        logedInSuccessfully = isExists(userName, password);
+
+        if(!isExists){ //user is not signed in to the system.
+            window.alert("User name or password are incorrect. Please try again.")
+        }
+        else{
+            showSettings(); //moves to the game's settings
+            //isLoggedIn=true;
+            //user_name=userName;
+        }
+    }
+</script>
+
+<script>
+    function isExists(usernameThis, passordThis) { //returns true if the user's details are correct.
+        var size = allUsers.length;
+        for (i=0; i<size; i++){
+            var currUser = allUsers[i];
+            if (currUser.username == usernameThis){
+                if(currUser.password == passordThis){
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;
+    }
+
+function saveRegisterForm() {
+        
+    //var txtbox1=document.getElementById("txtbox1");
+    //sessionStorage.setItem("name",txtbox1.value);
+
+    var newPerson = { username: getElementById("username"), password: getElementById("password") };
+    users.push(newPerson);
+    //sessionStorage.setItem(getElementById("username"), getElementById("password"));
+
+}
+</script>
+
+});
 </html>

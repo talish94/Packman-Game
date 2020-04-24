@@ -1,14 +1,18 @@
 $(document).ready(function() {
     $("#login").click(function() {
-        var username = $("#username").val();
-        var password = $("#password").val();
+        var usernameLogin = $("#usernameLogin").val();
+        var passwordLogin = $("#passwordLogin").val();
         // Checking for blank fields.
-        if (username == '' || password == '') {
-            $('input[type="t"],input[type="p"]').css("border", "2px solid red");
-            $('input[type="t"],input[type="p"]').css("box-shadow", "0 0 3px red");
-            alert("Please fill all fields...!!!!!!");
+        if (usernameLogin == '') {
+            $('input[type="t"]').css("border", "2px solid red");
+            $('input[type="t"]').css("box-shadow", "0 0 3px red");
+            alert("Please fill in your username.");
+        } else if ( passwordLogin == ''){
+            $('input[type="p"]').css("border", "2px solid red");
+            $('input[type="p"]').css("box-shadow", "0 0 3px red");
+            alert("Please fill in your password.");
         } else {
-            $.post("login.php", { username1: username, password1: password },
+            $.post("login.php", { username1: usernameLogin, password1: passwordLogin },
                 function(data) {
                     if (data == 'Invalid Username.......') {
                         $('input[type="t"]').css({ "border": "2px solid red", "box-shadow": "0 0 3px red" });
@@ -28,3 +32,4 @@ $(document).ready(function() {
         }
     });
 });
+
