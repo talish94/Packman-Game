@@ -8,12 +8,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="./jquery-3.4.1.slim.min.js"></script>
     <script type="text/javascript" src="./app.js"></script>
-    <script type="text/javascript" src="./modalDialog.js"></script>
     <script type="text/javascript" src="./settings.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="text/javascript" src="./login.js"></script>
+
     <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
-    <!-- <script src="../dist/jquery.validate.js"></script>
-    <script src="../lib/jquery.js"></script> -->
 </head>
 
 <body>
@@ -43,47 +42,41 @@
                 <button href="#a" onclick="showLogin()">Login</button>
             </section>
             <section id="register" style="display:none;">
-                <form class="cmxform" id="signupForm" method="get" action="" name="signupForm">
+                <form class="cmxform" id="registerForm" method="get" action="" name="registerForm">
                     <fieldset>
-                        <legend>Validating a complete form</legend>
+                        <legend>Please sign up to play our pacmen :)</legend>
                         <p>
                             <label for="username">Username</label>
-                            <input id="username" name="username" type="text" minlength="2" required>
+                            <input id="username" name="username" type="text" required>
                         </p>
                         <p>
                             <label for="password">Password</label>
-                            <input id="password" name="password" type="password">
+                            <input id="password" name="password" type="password" minlength="6" required>
                         </p>
                         <p>
                             <label for="confirm_password">Confirm password</label>
-                            <input id="confirm_password" name="confirm_password" type="password">
+                            <input id="confirm_password" name="confirm_password" type="password" required>
                         </p>
 
                         <p>
                             <label for="firstname">First name</label>
-                            <input id="firstname" name="firstname" type="text">
+                            <input id="firstname" name="firstname" type="text" required>
                         </p>
                         <p>
                             <label for="lastname">Last name</label>
-                            <input id="lastname" name="lastname" type="text">
+                            <input id="lastname" name="lastname" type="text" required>
                         </p>
                         <p>
                             <label for="email">Email</label>
-                            <input id="email" name="email" type="email">
+                            <input id="email" name="email" type="email" required>
                         </p>
-
-                        <!-- <p>
-                            <label for="birthdate">Birthdate</label>
-                            <input type="text" id="datepicker">
-                        </p> -->
-
                         <p>
                             <label for="birthdate">Birthdate</label>
-                            <input type="date" id="dated">
+                            <input type="date" id="dated" required>
                         </p>
                         <p>
                             <label for="agree">Please agree to our policy</label>
-                            <input type="checkbox" class="checkbox" id="agree" name="agree">
+                            <input type="checkbox" class="checkbox" id="agree" name="agree" required>
                         </p>
 
                         <p>
@@ -92,8 +85,20 @@
                     </fieldset>
                 </form>
             </section>
-            <section id="login" style="display:none;">
-            </section>
+            <div id="content">
+
+                <section id="login" style="display:none;">
+                    <form class="form" method="post" action="#">
+                        <h2>Create Login Form Using jQuery</h2>
+                        <label>Email :</label>
+                        <input type="text" name="demail" id="email">
+                        <label>Password :</label>
+                        <input type="password" name="password" id="password">
+                        <input type="button" name="login" id="login" value="Login">
+                    </form>
+                </section>
+            </div>
+
             <section id="aboutSec" display=none>
                 <!-- The Modal -->
                 <div id="myModal" class="modal">
@@ -180,13 +185,6 @@
         document.getElementById("settings").style.display = "block";
     }
 </script>
-<!-- <script>
-    $(function() {
-        $("#datepicker").datepicker();
-    });
-</script> -->
-<script>
-</script>
 <script>
     function showSettings() {
         document.getElementById("settings").style.display = "block";
@@ -216,6 +214,5 @@
         document.getElementById("welcome").style.display = "block";
     }
 </script>
-
 
 </html>
