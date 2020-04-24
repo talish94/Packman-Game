@@ -2,17 +2,36 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="screen.css" />
+
     <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
     <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
     <script src="./jquery-3.4.1.slim.min.js"></script>
     <script type="text/javascript" src="./app.js"></script>
     <script type="text/javascript" src="./settings.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <!-- <script type="text/javascript" src="./register.js"></script> -->
     <script type="text/javascript" src="./login.js"></script>
 
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js"></script> -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script> -->
+    <!-- <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script> -->
     <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+
+    <!-- <script src="https://jqueryvalidation.org/files/lib/jquery.js"></script> -->
+    <!-- <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script> -->
+
+    <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+
 </head>
 
 <body>
@@ -41,59 +60,89 @@
                 <br />
                 <button href="#a" onclick="showLogin()">Login</button>
             </section>
-            <section id="register" style="display:none;">
-                <form class="cmxform" id="registerForm" method="get" action="" name="registerForm">
+
+            <!-- <section id="register" name="register" style="display:none;">
+                <form class="cmxform" id="signupForm" method="get" action="">
                     <fieldset>
                         <legend>Please sign up to play our pacmen :)</legend>
                         <p>
                             <label for="username">Username</label>
-                            <input id="username" name="username" type="text" required>
+                            <input id="username" name="username" type="text">
                         </p>
                         <p>
                             <label for="password">Password</label>
-                            <input id="password" name="password" type="password" minlength="6" required>
+                            <input id="password" name="password" type="password">
                         </p>
                         <p>
                             <label for="confirm_password">Confirm password</label>
-                            <input id="confirm_password" name="confirm_password" type="password" required>
+                            <input id="confirm_password" name="confirm_password" type="password">
                         </p>
 
                         <p>
                             <label for="firstname">First name</label>
-                            <input id="firstname" name="firstname" type="text" required>
+                            <input id="firstname" name="firstname" type="text">
                         </p>
                         <p>
                             <label for="lastname">Last name</label>
-                            <input id="lastname" name="lastname" type="text" required>
+                            <input id="lastname" name="lastname" type="text">
                         </p>
                         <p>
                             <label for="email">Email</label>
-                            <input id="email" name="email" type="email" required>
+                            <input id="email" name="email" type="email">
                         </p>
                         <p>
                             <label for="birthdate">Birthdate</label>
-                            <input type="date" id="dated" required>
+                            <input type="date" id="dated">
                         </p>
                         <p>
                             <label for="agree">Please agree to our policy</label>
-                            <input type="checkbox" class="checkbox" id="agree" name="agree" required>
+                            <input type="checkbox" class="checkbox" id="agree" name="agree">
                         </p>
 
-                        <p>
-                            <input class="submit" type="submit" onclick="saveUserSignUpForm()" value="Submit">
-                        </p>
+                        <p> <input class="submit" type="submit" value="Submit"> </p>
                     </fieldset>
                 </form>
+            </section> -->
+            <section id="register" name="register" style="display:none;">
+                <div class="container">
+                    <div class="col-md-6 col-md-offset-3">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                Registration
+                            </div>
+                            <div class="panel-body">
+                                <form id="registration">
+                                    <input type="text" class="form-control" name="username" placeholder="Username" />
+                                    <br/>
+                                    <input type="password" class="form-control" name="password" placeholder="Password" id="password" />
+                                    <br/>
+                                    <input type="password" class="form-control" name="confirm" placeholder="Confirm Password" />
+                                    <br/>
+                                    <input type="text" class="form-control" name="fname" placeholder="First Name" />
+                                    <br/>
+                                    <input type="text" class="form-control" name="lname" placeholder="Last Name" />
+                                    <br/>
+                                    <input type="text" class="form-control" name="email" placeholder="Email" />
+                                    <br/>
+                                    <input type="date" class="form-control" name="date" placeholder="Birthdate" />
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
             <div id="content">
-
                 <section id="login" style="display:none;">
                     <form class="form" method="post" action="#">
                         <h2>Create Login Form Using jQuery</h2>
-                        <label>Email :</label>
-                        <input type="text" name="demail" id="email">
+                        <label>UserName :</label>
+                        <input type="t" name="username" id="username">
                         <label>Password :</label>
-                        <input type="password" name="password" id="password">
+                        <input type="p" name="password" id="password">
                         <input type="button" name="login" id="login" value="Login">
                     </form>
                 </section>
@@ -154,6 +203,11 @@
         <div id="game" style="display:none;">
             <canvas id="canvas" height="600" width="600"></canvas>
         </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="register.js"></script>
 </body>
 <script>
     // Get the modal
