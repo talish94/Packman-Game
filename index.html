@@ -34,9 +34,9 @@
 
 </head>
 
-<body>
+<body style="overflow: hidden;">
     <div>
-        <img src="logo2.jpg" position="sticky" width=1300 height="200" width="20%" height="10%"></img>
+        <img src="logo2.jpg" position="sticky" width=1300 height="100" width="20%" height="10%"></img>
         <div id="header">
             <div id="menu">
                 <ul>
@@ -162,6 +162,81 @@
                     </div>
                 </div>
             </section>
+            <section id=totalGame style="display:none;">
+                <div id="score">
+                    <label for="lblScore">SCORE:</label>
+                    <input id="lblScore" type="text" />
+                </div>
+                <div id="time">
+                    <label for="lblTime">TIME:</label>
+                    <input id="lblTime" type="text" />
+                </div>
+                <div id="game">
+                    <table>
+                        <style>
+                            table,
+                            th,
+                            td {
+                                border: 1px solid black;
+                                text-align: center;
+                            }
+                        </style>
+                        <tr>
+                            <th>
+                                <canvas id="canvas" height="600" width="600" style="overflow: hidden;"></canvas>
+                            </th>
+                            <th>
+                                <table>
+                                    <tr>
+                                        <th>Criteria</th>
+                                        <th>Setting</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Left Key</td>
+                                        <td id=lk value=""></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Right Key</td>
+                                        <td id=rk value=""></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Down Key</td>
+                                        <td id=dk value=""></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Up Key</td>
+                                        <td id=uk value=""></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Number Of Balls</td>
+                                        <td id=numOfBalls value=""></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Color for 5 point ball</td>
+                                        <td id=5p value=""></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Color for 15 point ball</td>
+                                        <td id=15p value=""></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Color for 25 point ball</td>
+                                        <td id=25p value=""></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Time for the game</td>
+                                        <td id=gameTime value=""></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Number Of Monastars</td>
+                                        <td id=mons value=""></td>
+                                    </tr>
+                                </table>
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+            </section>
             <section id="settings" style="display:none;">
                 <h1>Settings For Playing:</h1>
                 <p>Please enter the keys you want to play with:</p>
@@ -186,24 +261,9 @@
                 <label>Please enter the number of monsters for the game: (min:1 , max:4)</label>
                 <input id="numberOfMonsters" type="text" value="1" name="numberOfMonsters"><br>
                 <button id=randomSettings onclick="randomSettings()"> Choose Random Settings</button><br />
-                <button id="start" onclick="start()">Start Game</button>
+                <button id="start" onclick="showGame()">Start Game</button>
             </section>
-            <br />
-            <br />
-            <br />
         </div>
-        <div id="score" style="display:none;">
-            <label for="lblScore">SCORE:</label>
-            <input id="lblScore" type="text" />
-        </div>
-        <div id="time" style="display:none;">
-            <label for="lblTime">TIME:</label>
-            <input id="lblTime" type="text" />
-        </div>
-        <div id="game" style="display:none;">
-            <canvas id="canvas" height="600" width="600"></canvas>
-        </div>
-
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -234,39 +294,6 @@
         var code = e.keyCode || e.which;
         if (code == 27) $('#myModal').hide();
     });
-
-    function showSettings() {
-        document.getElementById("settings").style.display = "block";
-    }
-</script>
-<script>
-    function showSettings() {
-        document.getElementById("settings").style.display = "block";
-        document.getElementById("login").style.display = "none";
-        document.getElementById("register").style.display = "none";
-        document.getElementById("welcome").style.display = "none";
-    }
-
-    function showLogin() {
-        document.getElementById("settings").style.display = "none";
-        document.getElementById("login").style.display = "block";
-        document.getElementById("register").style.display = "none";
-        document.getElementById("welcome").style.display = "none";
-    }
-
-    function showRegister() {
-        document.getElementById("settings").style.display = "none";
-        document.getElementById("login").style.display = "none";
-        document.getElementById("register").style.display = "block";
-        document.getElementById("welcome").style.display = "none";
-    }
-
-    function showWelcome() {
-        document.getElementById("settings").style.display = "none";
-        document.getElementById("login").style.display = "none";
-        document.getElementById("register").style.display = "none";
-        document.getElementById("welcome").style.display = "block";
-    }
 </script>
 
 </html>
