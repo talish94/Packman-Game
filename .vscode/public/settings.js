@@ -76,12 +76,12 @@ function randomSettings() {
     document.getElementById("numberOfBalls").value = Math.floor(Math.random() * 50) + 1;
     document.getElementById("numberOfMonsters").value = Math.floor(Math.random() * 4) + 1;
     document.getElementById("timeForGame").value = Math.floor(Math.random() * 1000) + 60;
-    var color5point = getRandomColor();
-    var color15point = getRandomColor();
+    let color5point = getRandomColor();
+    let color15point = getRandomColor();
     while (color15point == color5point) {
         color15point = getRandomColor()
     }
-    var color25point = getRandomColor();
+    let color25point = getRandomColor();
     while (color25point == color5point || color25point == color15point) {
         color25point = getRandomColor();
     }
@@ -91,9 +91,9 @@ function randomSettings() {
 }
 
 function getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
+    let letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
         color += letters[Math.floor(Math.random() * 16)];
     }
     return color;

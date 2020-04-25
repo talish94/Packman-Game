@@ -157,7 +157,7 @@ td {
 }
 
 th {
-    background-color: #fc0;
+    background-color: rgb(8, 8, 6);
 }
 
 th:hover {

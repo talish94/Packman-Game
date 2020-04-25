@@ -8,18 +8,25 @@ var time_elapsed;
 var interval;
 var life;
 
-$(document).ready(function() {
-    context = canvas.getContext("2d");
-    Start();
-});
+
+// $(document).ready(function() {
+//     context = canvas.getContext("2d");
+//     Start();
+// });
+
+
 //comments
 function Start() {
     board = new Array();
-	score = 0;
-	life = 5;
+    score = 0;
+    life = 5;
     pac_color = "yellow";
     var cnt = 100;
-    var food_remain = 50;
+    //   var food_remain = 50;
+    var food_remain = document.getElementById("numberOfBalls").value; // ***tair***
+    let five_remain = food_remain * 0.6;
+    let fifthTeen_remain = food_remain * 0.3;
+    let twentyFive_remain = food_remain * 0.1;
     var pacman_remain = 1;
     start_time = new Date();
     for (var i = 0; i < 10; i++) {
@@ -37,8 +44,28 @@ function Start() {
             } else {
                 var randomNum = Math.random();
                 if (randomNum <= (1.0 * food_remain) / cnt) {
-                    food_remain--;
-                    board[i][j] = 1;
+                    var rand = Math.floor(Math.random() * 3);
+                    if (rand == 0) {
+                        if (five_remain > 0) {
+                            board[i][j] = 1;
+                            five_remain--;
+                        }
+                    } else if (rand == 1) {
+                        if (fifthTeen_remain > 0) {
+                            board[i][j] = 5;
+                            fifthTeen_remain--;
+                        }
+                    } else if (rand == 2) {
+                        if (twentyFive_remain > 0) {
+                            board[i][j] = 6;
+                            twentyFive_remain--;
+                        }
+                    }
+                    if (typeof board[i][j] == 'undefined') {
+                        board[i][j] = 0;
+                    } else {
+                        food_remain--;
+                    }
                 } else if (randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
                     shape.i = i;
                     shape.j = j;
@@ -53,8 +80,20 @@ function Start() {
     }
     while (food_remain > 0) {
         var emptyCell = findRandomEmptyCell(board);
-        board[emptyCell[0]][emptyCell[1]] = 1;
-        food_remain--;
+        if (five_remain > 0) {
+            board[emptyCell[0]][emptyCell[1]] = 1;
+            food_remain--;
+            five_remain--;
+        } else if (fifthTeen_remain > 0) {
+            board[emptyCell[0]][emptyCell[1]] = 5;
+            food_remain--;
+            fifthTeen_remain--;
+        } else if (twentyFive_remain > 0) {
+            board[emptyCell[0]][emptyCell[1]] = 6;
+            food_remain--;
+            twentyFive_remain--;
+        }
+
     }
     keysDown = {};
     addEventListener(
@@ -118,15 +157,25 @@ function Draw() {
                 context.arc(center.x + 5, center.y - 15, 5, 0, 2 * Math.PI); // circle //eye
                 context.fillStyle = "black"; //color
                 context.fill();
-            } else if (board[i][j] == 1) { // points
+            } else if (board[i][j] == 1) { // 5 points balls
                 context.beginPath();
                 context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
-                context.fillStyle = "black"; //color
+                context.fillStyle = document.getElementById("fivePointBallColor").value; //color 
                 context.fill();
             } else if (board[i][j] == 4) { //walls
                 context.beginPath();
                 context.rect(center.x - 30, center.y - 30, 60, 60);
                 context.fillStyle = "grey"; //color
+                context.fill();
+            } else if (board[i][j] == 5) { // 15 points balls
+                context.beginPath();
+                context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+                context.fillStyle = document.getElementById("fifthTeenPointBallColor").value; //color 
+                context.fill();
+            } else if (board[i][j] == 6) { // 25 points balls
+                context.beginPath();
+                context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+                context.fillStyle = document.getElementById("twentyFivePointBallColor").value; //color
                 context.fill();
             }
         }
@@ -157,33 +206,35 @@ function UpdatePosition() {
         }
     }
     if (board[shape.i][shape.j] == 1) {
-        score++;
-	}
-	if (board[shape.i][shape.j] == 3) { // eaten by a monster !!
-		score = score - 10 ; //these are the rules.
-		var emptyCell = findRandomEmptyCell(board); //new start point for next round.
-		board[emptyCell[0]][emptyCell[1]] = 2; //put pacman. 
+        score = score + 5;
+    } else if (board[shape.i][shape.j] == 5) {
+        score = score + 15;
+    } else if (board[shape.i][shape.j] == 6) {
+        score = score + 25;
+    }
+    if (board[shape.i][shape.j] == 3) { // eaten by a monster !!
+        score = score - 10; //these are the rules.
+        var emptyCell = findRandomEmptyCell(board); //new start point for next round.
+        board[emptyCell[0]][emptyCell[1]] = 2; //put pacman. 
 
-		////////////////////////////////////////            todo: לצייר באמת מפלצות בפינות הלוחחחח !!
-		var numOfMonsters = document.getElementById("numberOfMonsters").value;
-		if (numOfMonsters == 1)	
-			board[0][0] = 3;
-		else if ( numOfMonsters == 2){
-			board[0][0] = 3;
-			board[9][9] = 3;
-		}
-		else if ( numOfMonsters == 3){
-			board[0][0] = 3;
-			board[9][9] = 3;
-			board[0][9] = 3;
-		}
-		else{ //num = 4
-			board[0][0] = 3;
-			board[9][9] = 3;
-			board[0][9] = 3;
-			board[9][0] = 3;
-		}
-	}
+        ////////////////////////////////////////            todo: לצייר באמת מפלצות בפינות הלוחחחח !!
+        var numOfMonsters = document.getElementById("numberOfMonsters").value;
+        if (numOfMonsters == 1)
+            board[0][0] = 3;
+        else if (numOfMonsters == 2) {
+            board[0][0] = 3;
+            board[9][9] = 3;
+        } else if (numOfMonsters == 3) {
+            board[0][0] = 3;
+            board[9][9] = 3;
+            board[0][9] = 3;
+        } else { //num = 4
+            board[0][0] = 3;
+            board[9][9] = 3;
+            board[0][9] = 3;
+            board[9][0] = 3;
+        }
+    }
 
     board[shape.i][shape.j] = 2;
     var currentTime = new Date();
@@ -240,6 +291,8 @@ function showGame() {
     document.getElementById("welcome").style.display = "none";
     document.getElementById("totalGame").style.display = "block";
     settingsWithGame();
+    context = canvas.getContext("2d");
+    Start();
 }
 
 function settingsWithGame() {
