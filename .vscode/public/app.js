@@ -7,14 +7,16 @@ var start_time;
 var time_elapsed;
 var interval;
 var life;
-
-
-// $(document).ready(function() {
-//     context = canvas.getContext("2d");
-//     Start();
-// });
-
-
+var numberOfBalls_value;
+var five_point_color_value;
+var fifth_teen_point_color_value;
+var twenty_five_point_color_value;
+var game_time_value;
+var number_of_monsters_value;
+var left_value;
+var right_value;
+var up_value;
+var down_value;
 //comments
 function Start() {
     board = new Array();
@@ -23,7 +25,7 @@ function Start() {
     pac_color = "yellow";
     var cnt = 100;
     //   var food_remain = 50;
-    var food_remain = document.getElementById("numberOfBalls").value; // ***tair***
+    var food_remain = numberOfBalls_value;
     let five_remain = food_remain * 0.6;
     let fifthTeen_remain = food_remain * 0.3;
     let twentyFive_remain = food_remain * 0.1;
@@ -160,7 +162,7 @@ function Draw() {
             } else if (board[i][j] == 1) { // 5 points balls
                 context.beginPath();
                 context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
-                context.fillStyle = document.getElementById("fivePointBallColor").value; //color 
+                context.fillStyle = five_point_color_value; //color 
                 context.fill();
             } else if (board[i][j] == 4) { //walls
                 context.beginPath();
@@ -170,12 +172,12 @@ function Draw() {
             } else if (board[i][j] == 5) { // 15 points balls
                 context.beginPath();
                 context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
-                context.fillStyle = document.getElementById("fifthTeenPointBallColor").value; //color 
+                context.fillStyle = fifth_teen_point_color_value; //color 
                 context.fill();
             } else if (board[i][j] == 6) { // 25 points balls
                 context.beginPath();
                 context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
-                context.fillStyle = document.getElementById("twentyFivePointBallColor").value; //color
+                context.fillStyle = twenty_five_point_color_value; //color
                 context.fill();
             }
         }
@@ -218,7 +220,7 @@ function UpdatePosition() {
         board[emptyCell[0]][emptyCell[1]] = 2; //put pacman. 
 
         ////////////////////////////////////////            todo: לצייר באמת מפלצות בפינות הלוחחחח !!
-        var numOfMonsters = document.getElementById("numberOfMonsters").value;
+        var numOfMonsters = number_of_monsters_value;
         if (numOfMonsters == 1)
             board[0][0] = 3;
         else if (numOfMonsters == 2) {
@@ -285,6 +287,19 @@ function showWelcome() {
 }
 
 function showGame() {
+    numberOfBalls_value = document.getElementById("numberOfBalls").value;
+    five_point_color_value = document.getElementById("fivePointBallColor").value;
+    fifth_teen_point_color_value = document.getElementById("fifthTeenPointBallColor").value;
+    twenty_five_point_color_value = document.getElementById("twentyFivePointBallColor").value;
+    game_time_value = document.getElementById("timeForGame").value;
+    number_of_monsters_value = document.getElementById("numberOfMonsters").value;
+    left_value = document.getElementById("left").value;
+    right_value = document.getElementById("right").value;
+    up_value = document.getElementById("up").value;
+    down_value = document.getElementById("down").value;
+    if (!inputsAreValid()) {
+        return;
+    }
     document.getElementById("settings").style.display = "none";
     document.getElementById("login").style.display = "none";
     document.getElementById("register").style.display = "none";
@@ -300,15 +315,15 @@ function settingsWithGame() {
     document.getElementById("rk").innerText = document.getElementById("right").innerText;
     document.getElementById("dk").innerText = document.getElementById("down").innerText;
     document.getElementById("uk").innerText = document.getElementById("up").innerText;
-    document.getElementById("numOfBalls").innerHTML = document.getElementById("numberOfBalls").value;
-    document.getElementById("5p").innerHTML = document.getElementById("fivePointBallColor").value;
-    document.getElementById("5p").style.background = document.getElementById("fivePointBallColor").value;
-    document.getElementById("15p").innerHTML = document.getElementById("fifthTeenPointBallColor").value;
-    document.getElementById("15p").style.background = document.getElementById("fifthTeenPointBallColor").value;
-    document.getElementById("25p").innerHTML = document.getElementById("twentyFivePointBallColor").value;
-    document.getElementById("25p").style.background = document.getElementById("twentyFivePointBallColor").value;
-    document.getElementById("gameTime").innerHTML = document.getElementById("timeForGame").value;
-    document.getElementById("mons").innerHTML = document.getElementById("numberOfMonsters").value;
+    document.getElementById("numOfBalls").innerHTML = numberOfBalls_value;
+    document.getElementById("5p").innerHTML = five_point_color_value;
+    document.getElementById("5p").style.background = five_point_color_value;
+    document.getElementById("15p").innerHTML = fifth_teen_point_color_value;
+    document.getElementById("15p").style.background = fifth_teen_point_color_value;
+    document.getElementById("25p").innerHTML = twenty_five_point_color_value;
+    document.getElementById("25p").style.background = twenty_five_point_color_value;
+    document.getElementById("gameTime").innerHTML = game_time_value;
+    document.getElementById("mons").innerHTML = number_of_monsters_value;
 }
 $(document).ready(function() {
     allUsers = new Array;
@@ -318,7 +333,41 @@ $(document).ready(function() {
     allUsers.push(defultUser);
 });
 
-//var txtbox1=document.getElementById("txtbox1");
-//sessionStorage.setItem("name",txtbox1.value);
+function inputsAreValid() {
+    if (numberOfBalls_value < 50 || numberOfBalls_value > 90) {
+        window.alert("number of balls are invalid, please insert number of balls between 50 to 90");
+        return false;
+    }
+    if (five_point_color_value == fifth_teen_point_color_value ||
+        five_point_color_value == twenty_five_point_color_value ||
+        twenty_five_point_color_value == fifth_teen_point_color_value) {
+        window.alert("colors are invalid, please insert difftent colors");
+        return false;
+    }
+    if (game_time_value < 60) {
+        window.alert("time is invalid, please insert time about 60 seconds");
+        return false;
+    }
 
-//sessionStorage.setItem(getElementById("username"), getElementById("password"));
+    if (number_of_monsters_value < 1 || number_of_monsters_value > 4) {
+        window.alert("number of monsters invalid, please insert number btween 1 to 4");
+        return false;
+    }
+    if (left_value == "") {
+        window.alert("please insert all the keys for playing!")
+        return false;
+    }
+    if (right_value == "") {
+        window.alert("please insert all the keys for playing!")
+        return false;
+    }
+    if (up_value == "") {
+        window.alert("please insert all the keys for playing!")
+        return false;
+    }
+    if (down_value == "") {
+        window.alert("please insert all the keys for playing!")
+        return false;
+    }
+    return true;
+}

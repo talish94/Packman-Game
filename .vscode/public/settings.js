@@ -14,6 +14,7 @@ function leftChoosen(e) {
     }
     leftKey = e.code;
     document.getElementById("left").innerText = e.code;
+    document.getElementById("left").value = e.keyCode;
     document.removeEventListener("keydown", leftChoosen);
 }
 //right key choose
@@ -28,6 +29,7 @@ function rightChoosen(e) {
     }
     rightKey = e.code;
     document.getElementById("right").innerText = e.code;
+    document.getElementById("right").value = e.keyCode;
     document.removeEventListener("keydown", rightChoosen);
 }
 //up key choose
@@ -42,6 +44,7 @@ function upChoosen(e) {
     }
     upKey = e.code;
     document.getElementById("up").innerText = e.code;
+    document.getElementById("up").value = e.keyCode;
     document.removeEventListener("keydown", upChoosen);
 }
 //down key choose
@@ -56,6 +59,7 @@ function downChoosen(e) {
     }
     downKey = e.code;
     document.getElementById("down").innerText = e.code;
+    document.getElementById("down").value = e.keyCode;
     document.removeEventListener("keydown", downChoosen);
 }
 // this function checks if the user already choose this input.
@@ -73,9 +77,9 @@ function randomSettings() {
     document.getElementById("right").innerHTML = "ArrowRight";
     document.getElementById("up").innerHTML = "ArrowUp";
     document.getElementById("down").innerHTML = "ArrowDown";
-    document.getElementById("numberOfBalls").value = Math.floor(Math.random() * 50) + 1;
+    document.getElementById("numberOfBalls").value = Math.floor(Math.random() * (90 - 50 + 1) + 50);
     document.getElementById("numberOfMonsters").value = Math.floor(Math.random() * 4) + 1;
-    document.getElementById("timeForGame").value = Math.floor(Math.random() * 1000) + 60;
+    document.getElementById("timeForGame").value = Math.floor(Math.random() * (500 - 60 + 1) + 60);
     let color5point = getRandomColor();
     let color15point = getRandomColor();
     while (color15point == color5point) {
