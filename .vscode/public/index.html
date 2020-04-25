@@ -90,7 +90,7 @@
                                     <br/>
                                     <br/>
                                     <br/>
-                                    <button type="submit" id="submit" onclick=saveRegisterForm() class="btn btn-primary">Submit</button>
+                                    <button type="submit" id="submitbutton" onclick="saveRegisterForm()" class="btn btn-primary">Submit</button>
                                 </form>
                             </div>
                         </div>
@@ -105,7 +105,7 @@
                         <input type="t" name="usernameLogin" id="usernameLogin">
                         <label>Password :</label>
                         <input type="p" name="passwordLogin" id="passwordLogin">
-                        <input type="button" name="login" id="login" onclick="loginSuccess()" value="login">
+                        <input type="button" name="loginbutton" id="loginbutton" value="login">
                     </form>
                 </section>
             </div>
@@ -172,6 +172,10 @@
         <script src="register.js"></script>
 </body>
 <script>
+
+  
+
+
     // Get the modal
     var modal = document.getElementById("myModal");
     // Get the button that opens the modal
@@ -233,20 +237,20 @@
 
 <script>
 
-    window.onload = function() {
-        initialArray();
-    }
-
-    function initialArray(){
-
-    // var allUsers = [];
-    // allUsers.push({ username: "p", password: "p" }); //default one.};
+    // window.onload = function() {
+    //     initialArray();
     // }
 
-        //were asked for a default user in the users' array:
-        var defultUser = { user_name: "p", password: "p"}
-        var allUsers = [defultUser];
-    }
+    // function initialArray(){
+
+    // // var allUsers = [];
+    // // allUsers.push({ username: "p", password: "p" }); //default one.};
+    // // }
+
+    //     //were asked for a default user in the users' array:
+    //     var defultUser = { user_name: "p", password: "p"}
+    //     var allUsers = [defultUser];
+    // }
 
     // function addUserToArray(userName, passWord){
 
@@ -260,81 +264,6 @@
     //     return true;
     // }
 
-    function loginSuccess(){
-
-        var usernameLogin = document.getElementById("usernameLogin").value;
-        var passwordLogin = document.getElementById("passwordLogin").value;
-
-        logedInSuccessfully = correctDetailsUser(usernameLogin, passwordLogin);
-
-        if(!logedInSuccessfully){ //user is not signed in to the system.
-            window.alert("User name or password are incorrect. Please try again.")
-        }
-        else{
-            showSettings(); //moves to the game's settings
-            //isLoggedIn=true;
-            //user_name=userName;
-        }
-    }
-
-    function correctDetailsUser(usernameLogin, passwordLogin) { //returns true if the user's details are correct.
-        var size = allUsers.length;
-        for (i=0; i<size; i++){
-            var currUser = allUsers[i];
-            if (currUser.username == usernameLogin){
-                if(currUser.password == passwordLogin){
-                    return true;
-                }
-                return false;
-            }
-        }
-        return false;
-    }
-
-    function isUserameExists (userName){
-            var size = allUsers.length;
-            for(i=0; i<length; i++){
-                var currUser = allUsers[i];
-
-                if(currUser.user_name == userName){
-                    return true;
-                }
-            }
-            return false;
-        }
-
-   function saveRegisterForm() {
-
-        var userName = document.getElementById("username").value;
-        var password = document.getElementById("password").value;
-
-        // var firstname=document.getElementById("firstname").value;
-        // var lastname=document.getElementById("lastname").value;
-        // var email=document.getElementById("user_email").value;
-        // var birthday=document.getElementById("birthday").value;
-        // var date=birthday.split("-");
-        // var day=date[2];
-        // var month=date[1];
-        // var year=date[0];
-
-        //addedSuccess = addUserToArray(userName, password);
-
-        if (isUserameExists(userName)){ // username already exists in the system
-            window.alert("user name already exist. Please pick a new one and try again");
-            return false;
-        }
-        else { 
-            var newPerson = { username: getElementById("username"), password: getElementById("password") };
-            allUsers.push(newPerson);
-            //window.alert("User added successfully! Please log in now to play the game.");
-            showLogin();
-            return true;
-        }        
-   }
-    //var txtbox1=document.getElementById("txtbox1");
-    //sessionStorage.setItem("name",txtbox1.value);
-
-    //sessionStorage.setItem(getElementById("username"), getElementById("password"));
     
 
 </script>

@@ -170,3 +170,19 @@ function UpdatePosition() {
 		Draw();
 	}
 }
+
+$(document).ready(function () {
+	allUsers = new Array;
+	var defultUser = { username: "p", password: "p"}
+	//var allUsers = [defultUser];
+	//allUsers[0] = defultUser;
+	allUsers.push(defultUser);
+});
+
+
+
+//var txtbox1=document.getElementById("txtbox1");
+//sessionStorage.setItem("name",txtbox1.value);
+
+//sessionStorage.setItem(getElementById("username"), getElementById("password"));
+
