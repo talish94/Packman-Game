@@ -237,8 +237,6 @@ $(document).ready(function() {
     allUsers.push(defultUser);
 });
 
-
-
 //var txtbox1=document.getElementById("txtbox1");
 //sessionStorage.setItem("name",txtbox1.value);
 

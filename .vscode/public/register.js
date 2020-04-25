@@ -125,14 +125,14 @@ function saveRegisterForm() {
 
 	if (isUserameExists(userName)){ // username already exists in the system
 		window.alert("user name already exist. Please pick a new one and try again.");
-		return false;
+		return;
 	}
 	else { 
 		var newPerson = { username: userName, password: passWord };
 		allUsers.push(newPerson);
-		//window.alert("User added successfully! Please log in now to play the game.");
+		window.alert("User added successfully! Please log in now to play the game.");
 		showLogin();
-		return true;
+		return;
 	}        
 }
 
