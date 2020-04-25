@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="screen.css" />
+
+    <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
+    <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <script src="./jquery-3.4.1.slim.min.js"></script>
+    <script type="text/javascript" src="./app.js"></script>
+    <script type="text/javascript" src="./settings.js"></script>
+    <!-- <script type="text/javascript" src="./register.js"></script> -->
+    <script type="text/javascript" src="./login.js"></script>
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js"></script> -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script> -->
+    <!-- <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script> -->
+    <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+
+    <!-- <script src="https://jqueryvalidation.org/files/lib/jquery.js"></script> -->
+    <!-- <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script> -->
+
+    <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+
+</head>
+
+<body style="overflow: hidden;">
+
+    <body>
+        <div>
+            <img src="logo2.jpg" position="sticky" width=1300 height="100" width="20%" height="10%"></img>
+            <div id="header">
+                <div id="menu">
+                    <ul>
+                        <li><a href="#welcome" onclick="showWelcome()">Welcome</a></li>
+                        <li><a href="#register" onclick="showRegister()">Register</a></li>
+                        <li><a href="#login" onclick="showLogin()">Login</a></li>
+                        <li><a href="#settings" onclick="showSettings()">Game Settings</a></li>
+                        <li><a id="about">About</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="content">
+                <section id="welcome">
+                    <h1>Welcome to the Pacman Game! &#128516; Please Login or register for playing!
+                        <br /> First, you will have to choose your play settings in oreder to play.
+                        <br /> Be careful from the monsters around you...
+                        <br /> Try to eat as many points as you can!
+                        <br />
+                    </h1>
+                    <button href="#a" onclick="showRegister()">Register</button>
+                    <br />
+                    <button href="#a" onclick="showLogin()">Login</button>
+
+
+                </section>
+
+                <section id="register" name="register" style="display:none;">
+                    <div class="container">
+                        <div class="col-md-6 col-md-offset-3">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    Registration
+                                </div>
+                                <div class="panel-body">
+                                    <form id="registration">
+                                        <input type="text" class="form-control" name="username" placeholder="Username" id="username" />
+                                        <br/>
+                                        <input type="password" class="form-control" name="password" placeholder="Password" id="password" />
+                                        <br/>
+                                        <input type="password" class="form-control" name="confirm" placeholder="Confirm Password" />
+                                        <br/>
+                                        <input type="text" class="form-control" name="fname" placeholder="First Name" id="fname" />
+                                        <br/>
+                                        <input type="text" class="form-control" name="lname" placeholder="Last Name" id="lname" />
+                                        <br/>
+                                        <input type="text" class="form-control" name="email" placeholder="Email" id="email" />
+                                        <br/>
+                                        <input type="date" class="form-control" name="date" placeholder="Birthdate" id="date" />
+                                        <br/>
+                                        <br/>
+                                        <br/>
+                                        <button type="submit" id="submitbutton" onclick="saveRegisterForm()" class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div id="content">
+                    <section id="login" style="display:none;">
+                        <form class="form" method="post" action="#">
+                            <h2>Please log in to your account</h2>
+                            <label>UserName :</label>
+                            <input type="t" name="usernameLogin" id="usernameLogin">
+                            <label>Password :</label>
+                            <input type="p" name="passwordLogin" id="passwordLogin">
+                            <input type="button" name="loginbutton" id="loginbutton" value="login">
+                        </form>
+                    </section>
+                </div>
+
+                <section id="aboutSec" display=none>
+                    <!-- The Modal -->
+                    <div id="myModal" class="modal">
+                        <!-- Modal content -->
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <p>The creators of the game:Tair Cohen and Tali Shwarz
+                                <br /> The jQuery Plugin that we have used are:
+                                <br /> The Template that we have used are:
+                                <br /> The difficulties we encountered in the exercise are:
+                            </p>
+                        </div>
+                    </div>
+                </section>
+                <section id=totalGame style="display:none;">
+                    <div id="score">
+                        <label for="lblScore">SCORE:</label>
+                        <input id="lblScore" type="text" />
+                    </div>
+                    <div id="time">
+                        <label for="lblTime">TIME:</label>
+                        <input id="lblTime" type="text" />
+                    </div>
+                    <div id="game">
+                        <table>
+                            <style>
+                                table,
+                                th,
+                                td {
+                                    border: 1px solid black;
+                                    text-align: center;
+                                }
+                            </style>
+                            <tr>
+                                <th>
+                                    <canvas id="canvas" height="600" width="600" style="overflow: hidden;"></canvas>
+                                </th>
+                                <th>
+                                    <table>
+                                        <tr>
+                                            <th>Criteria</th>
+                                            <th>Setting</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Left Key</td>
+                                            <td id=lk value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Right Key</td>
+                                            <td id=rk value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Down Key</td>
+                                            <td id=dk value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Up Key</td>
+                                            <td id=uk value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Number Of Balls</td>
+                                            <td id=numOfBalls value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Color for 5 point ball</td>
+                                            <td id=5p value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Color for 15 point ball</td>
+                                            <td id=15p value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Color for 25 point ball</td>
+                                            <td id=25p value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Time for the game</td>
+                                            <td id=gameTime value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Number Of Monastars</td>
+                                            <td id=mons value=""></td>
+                                        </tr>
+                                    </table>
+                                </th>
+                            </tr>
+                        </table>
+                    </div>
+                </section>
+                <section id="settings" style="display:none;">
+                    <h1>Settings For Playing:</h1>
+                    <p>Please enter the keys you want to play with:</p>
+                    <button id="left" value="" onclick="leftFunction()">Choose Left Key</button>
+                    <br>
+                    <button id="right" onclick="rightFunction()">Choose Right Key</button>
+                    <br>
+                    <button id="up" onclick="upFunction()">Choose Up Key</button>
+                    <br>
+                    <button id="down" onclick="downFunction()">Choose Down Key</button>
+                    <br>
+                    <label>Please enter the number of balls: (max:90 , min:50)</label>
+                    <input id="numberOfBalls" type="text" value="50" name="numberOfBalls"><br>
+                    <label>Please enter the color for five point ball:</label>
+                    <input id="fivePointBallColor" type="color" value="#ff0080" name="fivePointBall"><br>
+                    <label>Please enter the color for fifth teen point ball:</label>
+                    <input id="fifthTeenPointBallColor" type="color" value="#ff0080" name="fifthTeenPointBall"><br>
+                    <label>Please enter the color for twenty five point ball:</label>
+                    <input id="twentyFivePointBallColor" type="color" value="#ff0080" name="twentyFivePointBall"><br>
+                    <label>Please enter the time in seconds for the game: (min:60 seconds)</label>
+                    <input id="timeForGame" type="text" value="60" name="timeForGame"><br>
+                    <label>Please enter the number of monsters for the game: (min:1 , max:4)</label>
+                    <input id="numberOfMonsters" type="text" value="1" name="numberOfMonsters"><br>
+                    <button id=randomSettings onclick="randomSettings()"> Choose Random Settings</button><br />
+                    <button id="start" onclick="showGame()">Start Game</button>
+                </section>
+            </div>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+            <script src="register.js"></script>
+    </body>
+    <script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+        // Get the button that opens the modal
+        var btn = document.getElementById("about");
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+        // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+                modal.style.display = "block";
+            }
+            // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+                modal.style.display = "none";
+            }
+            // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        $(document).keydown(function(e) {
+            var code = e.keyCode || e.which;
+            if (code == 27) $('#myModal').hide();
+        });
+    </script>
+
+    <script>
+        // window.onload = function() {
+        //     initialArray();
+        // }
+
+        // function initialArray(){
+
+        // // var allUsers = [];
+        // // allUsers.push({ username: "p", password: "p" }); //default one.};
+        // // }
+
+        //     //were asked for a default user in the users' array:
+        //     var defultUser = { user_name: "p", password: "p"}
+        //     var allUsers = [defultUser];
+        // }
+
+        // function addUserToArray(userName, passWord){
+
+        //     if(isUserameExists(userName)) // username already exists in the system
+        //         return false;
+
+        //     //else - adds new user to the system.
+        //     var newPerson = { username: getElementById("username"), password: getElementById("password") };
+
+        //     allUsers.push(newPerson);
+        //     return true;
+        // }
+    </script>
+
+</html>
