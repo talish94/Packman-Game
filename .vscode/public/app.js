@@ -6,6 +6,7 @@ var pac_color;
 var start_time;
 var time_elapsed;
 var interval;
+var life;
 
 $(document).ready(function() {
     context = canvas.getContext("2d");
@@ -14,7 +15,8 @@ $(document).ready(function() {
 //comments
 function Start() {
     board = new Array();
-    score = 0;
+	score = 0;
+	life = 5;
     pac_color = "yellow";
     var cnt = 100;
     var food_remain = 50;
@@ -106,22 +108,22 @@ function Draw() {
             var center = new Object();
             center.x = i * 60 + 30;
             center.y = j * 60 + 30;
-            if (board[i][j] == 2) {
+            if (board[i][j] == 2) { //pacman
                 context.beginPath();
                 context.arc(center.x, center.y, 30, 0.15 * Math.PI, 1.85 * Math.PI); // half circle
                 context.lineTo(center.x, center.y);
                 context.fillStyle = pac_color; //color
                 context.fill();
                 context.beginPath();
-                context.arc(center.x + 5, center.y - 15, 5, 0, 2 * Math.PI); // circle
+                context.arc(center.x + 5, center.y - 15, 5, 0, 2 * Math.PI); // circle //eye
                 context.fillStyle = "black"; //color
                 context.fill();
-            } else if (board[i][j] == 1) {
+            } else if (board[i][j] == 1) { // points
                 context.beginPath();
                 context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
                 context.fillStyle = "black"; //color
                 context.fill();
-            } else if (board[i][j] == 4) {
+            } else if (board[i][j] == 4) { //walls
                 context.beginPath();
                 context.rect(center.x - 30, center.y - 30, 60, 60);
                 context.fillStyle = "grey"; //color
@@ -156,7 +158,33 @@ function UpdatePosition() {
     }
     if (board[shape.i][shape.j] == 1) {
         score++;
-    }
+	}
+	if (board[shape.i][shape.j] == 3) { // eaten by a monster !!
+		score = score - 10 ; //these are the rules.
+		var emptyCell = findRandomEmptyCell(board); //new start point for next round.
+		board[emptyCell[0]][emptyCell[1]] = 2; //put pacman. 
+
+		////////////////////////////////////////            todo: לצייר באמת מפלצות בפינות הלוחחחח !!
+		var numOfMonsters = document.getElementById("numberOfMonsters").value;
+		if (numOfMonsters == 1)	
+			board[0][0] = 3;
+		else if ( numOfMonsters == 2){
+			board[0][0] = 3;
+			board[9][9] = 3;
+		}
+		else if ( numOfMonsters == 3){
+			board[0][0] = 3;
+			board[9][9] = 3;
+			board[0][9] = 3;
+		}
+		else{ //num = 4
+			board[0][0] = 3;
+			board[9][9] = 3;
+			board[0][9] = 3;
+			board[9][0] = 3;
+		}
+	}
+
     board[shape.i][shape.j] = 2;
     var currentTime = new Date();
     time_elapsed = (currentTime - start_time) / 1000;
