@@ -17,11 +17,12 @@ var left_value;
 var right_value;
 var up_value;
 var down_value;
+
 //comments
 function Start() {
     board = new Array();
     score = 0;
-    life = 5;
+    life = document.getElementById("lblLife");
     pac_color = "yellow";
     var cnt = 100;
     //   var food_remain = 50;
@@ -40,7 +41,13 @@ function Start() {
                 (i == 3 && j == 4) ||
                 (i == 3 && j == 5) ||
                 (i == 6 && j == 1) ||
-                (i == 6 && j == 2)
+                (i == 6 && j == 2) ||
+
+                (i == 4 && j == 5) ||
+                (i == 5 && j == 5) ||
+                (i == 6 && j == 5) ||
+                (i == 6 && j == 6) ||
+                (i == 6 && j == 7)
             ) {
                 board[i][j] = 4;
             } else {
@@ -126,16 +133,16 @@ function findRandomEmptyCell(board) {
 }
 
 function GetKeyPressed() {
-    if (keysDown[38]) {
+    if (keysDown[up_value]) {
         return 1;
     }
-    if (keysDown[40]) {
+    if (keysDown[down_value]) {
         return 2;
     }
-    if (keysDown[37]) {
+    if (keysDown[left_value]) {
         return 3;
     }
-    if (keysDown[39]) {
+    if (keysDown[right_value]) {
         return 4;
     }
 }
@@ -260,6 +267,20 @@ function showSettings() {
     document.getElementById("register").style.display = "none";
     document.getElementById("welcome").style.display = "none";
     document.getElementById("totalGame").style.display = "none";
+    document.getElementById("numberOfBalls").value = 50;
+    document.getElementById("fivePointBallColor").value = "#0000FF";
+    document.getElementById("fifthTeenPointBallColor").value = "#40E0D0";
+    document.getElementById("twentyFivePointBallColor").value = "#ff0080";
+    document.getElementById("timeForGame").value = 60;
+    document.getElementById("numberOfMonsters").value = 1;
+    document.getElementById("left").value = "";
+    document.getElementById("right").value = "";
+    document.getElementById("up").value = "";
+    document.getElementById("down").value = "";
+    document.getElementById("left").innerText = "Choose Left Key";
+    document.getElementById("right").innerText = "Choose Right Key";
+    document.getElementById("down").innerText = "Choose Down Key";
+    document.getElementById("up").innerText = "Choose Up Key";
 }
 
 function showLogin() {
@@ -297,6 +318,7 @@ function showGame() {
     right_value = document.getElementById("right").value;
     up_value = document.getElementById("up").value;
     down_value = document.getElementById("down").value;
+    document.getElementById("userNameWithGame").innerText = document.getElementById("usernameLogin").value;
     if (!inputsAreValid()) {
         return;
     }

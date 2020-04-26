@@ -4,33 +4,12 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="style.css" />
-    <link rel="stylesheet" type="text/css" href="screen.css" />
-
-    <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
-    <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="screen.css" /> -->
     <script src="./jquery-3.4.1.slim.min.js"></script>
     <script type="text/javascript" src="./app.js"></script>
     <script type="text/javascript" src="./settings.js"></script>
-    <!-- <script type="text/javascript" src="./register.js"></script> -->
     <script type="text/javascript" src="./login.js"></script>
-
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js"></script> -->
-    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-    <!-- <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script> -->
-    <!-- <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script> -->
-    <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
-
-    <!-- <script src="https://jqueryvalidation.org/files/lib/jquery.js"></script> -->
-    <!-- <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script> -->
-
-    <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
 
 </head>
 
@@ -125,14 +104,6 @@
                     </div>
                 </section>
                 <section id=totalGame style="display:none;">
-                    <div id="score">
-                        <label for="lblScore">SCORE:</label>
-                        <input id="lblScore" type="text" />
-                    </div>
-                    <div id="time">
-                        <label for="lblTime">TIME:</label>
-                        <input id="lblTime" type="text" />
-                    </div>
                     <div id="game">
                         <table>
                             <style>
@@ -143,6 +114,36 @@
                                     text-align: center;
                                 }
                             </style>
+                            <tr>
+                                <th>
+                                    <label style="text-align: left;">Username: </label>
+                                    <label type="text" id="userNameWithGame" value="" style="text-align: left;"> </label>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div id="score">
+                                        <label for="lblScore">SCORE:</label>
+                                        <input id="lblScore" type="text" />
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div id="time">
+                                        <label for="lblTime">TIME:</label>
+                                        <input id="lblTime" type="text" />
+                                    </div>
+                                </th>
+                                <tr>
+                                    <th>
+                                        <div id="life">
+                                            <label for="lblLife">LIFE:</label>
+                                            <input id="lblLife" type="text" value="5" />
+                                        </div>
+                                    </th>
+                                </tr>
+                            </tr>
                             <tr>
                                 <th>
                                     <canvas id="canvas" height="600" width="600" style="overflow: hidden;"></canvas>
@@ -213,9 +214,9 @@
                     <label>Please enter the number of balls: (max:90 , min:50)</label>
                     <input id="numberOfBalls" type="text" value="50" name="numberOfBalls"><br>
                     <label>Please enter the color for five point ball:</label>
-                    <input id="fivePointBallColor" type="color" value="#ff0080" name="fivePointBall"><br>
+                    <input id="fivePointBallColor" type="color" value="#0000FF" name="fivePointBall"><br>
                     <label>Please enter the color for fifth teen point ball:</label>
-                    <input id="fifthTeenPointBallColor" type="color" value="#ff0080" name="fifthTeenPointBall"><br>
+                    <input id="fifthTeenPointBallColor" type="color" value="#40E0D0" name="fifthTeenPointBall"><br>
                     <label>Please enter the color for twenty five point ball:</label>
                     <input id="twentyFivePointBallColor" type="color" value="#ff0080" name="twentyFivePointBall"><br>
                     <label>Please enter the time in seconds for the game: (min:60 seconds)</label>
