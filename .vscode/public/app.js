@@ -17,6 +17,9 @@ var left_value;
 var right_value;
 var up_value;
 var down_value;
+var musicInterval;
+var audio = new Audio('pacman_beginning.mp3');
+var gameIsOnInterval;
 
 //comments
 function Start() {
@@ -24,30 +27,48 @@ function Start() {
     score = 0;
     life = document.getElementById("lblLife");
     pac_color = "yellow";
-    var cnt = 100;
-    //   var food_remain = 50;
+    var cnt = 144;
     var food_remain = numberOfBalls_value;
     let five_remain = food_remain * 0.6;
     let fifthTeen_remain = food_remain * 0.3;
     let twentyFive_remain = food_remain * 0.1;
+    document.getElementById("menu").addEventListener("click", stopMusic);
     var pacman_remain = 1;
     start_time = new Date();
-    for (var i = 0; i < 10; i++) {
+    gameIsOnInterval = setInterval(finishGame, parseInt(game_time_value) * 1000);
+    for (var i = 0; i < 12; i++) {
         board[i] = new Array();
         //put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
-        for (var j = 0; j < 10; j++) {
+        for (var j = 0; j < 12; j++) {
             if (
                 (i == 3 && j == 3) ||
                 (i == 3 && j == 4) ||
                 (i == 3 && j == 5) ||
                 (i == 6 && j == 1) ||
                 (i == 6 && j == 2) ||
-
+                (i == 0 && j == 0) ||
+                (i == 1 && j == 0) ||
+                (i == 2 && j == 0) ||
+                (i == 2 && j == 1) ||
+                (i == 3 && j == 1) ||
                 (i == 4 && j == 5) ||
                 (i == 5 && j == 5) ||
                 (i == 6 && j == 5) ||
                 (i == 6 && j == 6) ||
-                (i == 6 && j == 7)
+                (i == 6 && j == 7) ||
+                (i == 0 && j == 6) ||
+                (i == 0 && j == 7) ||
+                (i == 0 && j == 8) ||
+                (i == 8 && j == 9) ||
+                (i == 9 && j == 9) ||
+                (i == 9 && j == 8) ||
+                (i == 0 && j == 11) ||
+                (i == 11 && j == 3) ||
+                (i == 11 && j == 4) ||
+                (i == 11 && j == 5) ||
+                (i == 11 && j == 6) ||
+                (i == 11 && j == 7)
+
             ) {
                 board[i][j] = 4;
             } else {
@@ -120,14 +141,16 @@ function Start() {
         false
     );
     interval = setInterval(UpdatePosition, 250);
+    startMusic();
+    musicInterval = setInterval(startMusic, 60000);
 }
 
 function findRandomEmptyCell(board) {
-    var i = Math.floor(Math.random() * 9 + 1);
-    var j = Math.floor(Math.random() * 9 + 1);
+    var i = Math.floor(Math.random() * 11 + 1);
+    var j = Math.floor(Math.random() * 11 + 1);
     while (board[i][j] != 0) {
-        i = Math.floor(Math.random() * 9 + 1);
-        j = Math.floor(Math.random() * 9 + 1);
+        i = Math.floor(Math.random() * 11 + 1);
+        j = Math.floor(Math.random() * 11 + 1);
     }
     return [i, j];
 }
@@ -151,8 +174,8 @@ function Draw() {
     canvas.width = canvas.width; //clean board
     lblScore.value = score;
     lblTime.value = time_elapsed;
-    for (var i = 0; i < 10; i++) {
-        for (var j = 0; j < 10; j++) {
+    for (var i = 0; i < 12; i++) {
+        for (var j = 0; j < 12; j++) {
             var center = new Object();
             center.x = i * 60 + 30;
             center.y = j * 60 + 30;
@@ -166,15 +189,15 @@ function Draw() {
                 context.arc(center.x + 5, center.y - 15, 5, 0, 2 * Math.PI); // circle //eye
                 context.fillStyle = "black"; //color
                 context.fill();
-            } else if (board[i][j] == 1) { // 5 points balls
-                context.beginPath();
-                context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
-                context.fillStyle = five_point_color_value; //color 
-                context.fill();
             } else if (board[i][j] == 4) { //walls
                 context.beginPath();
                 context.rect(center.x - 30, center.y - 30, 60, 60);
                 context.fillStyle = "grey"; //color
+                context.fill();
+            } else if (board[i][j] == 1) { // 5 points balls
+                context.beginPath();
+                context.arc(center.x, center.y, 10, 0, 2 * Math.PI); // circle
+                context.fillStyle = five_point_color_value; //color 
                 context.fill();
             } else if (board[i][j] == 5) { // 15 points balls
                 context.beginPath();
@@ -183,7 +206,7 @@ function Draw() {
                 context.fill();
             } else if (board[i][j] == 6) { // 25 points balls
                 context.beginPath();
-                context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+                context.arc(center.x, center.y, 20, 0, 2 * Math.PI); // circle
                 context.fillStyle = twenty_five_point_color_value; //color
                 context.fill();
             }
@@ -200,7 +223,7 @@ function UpdatePosition() {
         }
     }
     if (x == 2) {
-        if (shape.j < 9 && board[shape.i][shape.j + 1] != 4) {
+        if (shape.j < 11 && board[shape.i][shape.j + 1] != 4) {
             shape.j++;
         }
     }
@@ -210,7 +233,7 @@ function UpdatePosition() {
         }
     }
     if (x == 4) {
-        if (shape.i < 9 && board[shape.i + 1][shape.j] != 4) {
+        if (shape.i < 11 && board[shape.i + 1][shape.j] != 4) {
             shape.i++;
         }
     }
@@ -248,21 +271,41 @@ function UpdatePosition() {
     board[shape.i][shape.j] = 2;
     var currentTime = new Date();
     time_elapsed = (currentTime - start_time) / 1000;
-    if (score >= 20 && time_elapsed <= 10) {
-        pac_color = "green";
-    }
-    if (score == 50) {
+    // if (score >= 20 && time_elapsed <= 10) {
+    //     pac_color = "green";
+    // }
+    let winningScore = numberOfBalls_value * 0.6 * 5 + numberOfBalls_value * 0.3 * 15 + numberOfBalls_value * 0.1 * 25;
+    if (score == winningScore) {
         window.clearInterval(interval);
         window.alert("Game completed");
+        stopMusic();
+        document.getElementById("newGame").style.display = "block";
+    } else if (life == 0) {
+        window.clearInterval(interval);
+        window.alert("Loser!");
+        stopMusic();
+        document.getElementById("newGame").style.display = "block";
+        //finishGame();
     } else {
         Draw();
     }
 }
 
+function finishGame() {
+    window.clearInterval(interval);
+    window.clearInterval(gameIsOnInterval);
+    if (score < 100) {
+        window.alert("You are better than " + score + " points!")
+    } else {
+        window.alert("Winner!!!")
+    }
+    stopMusic();
+    document.getElementById("newGame").style.display = "block";
+}
 // shows the choosen page 
-
 function showSettings() {
     document.getElementById("settings").style.display = "block";
+    document.getElementById("newGame").style.display = "none";
     document.getElementById("login").style.display = "none";
     document.getElementById("register").style.display = "none";
     document.getElementById("welcome").style.display = "none";
@@ -285,6 +328,7 @@ function showSettings() {
 
 function showLogin() {
     document.getElementById("settings").style.display = "none";
+    document.getElementById("newGame").style.display = "none";
     document.getElementById("login").style.display = "block";
     document.getElementById("register").style.display = "none";
     document.getElementById("welcome").style.display = "none";
@@ -293,6 +337,7 @@ function showLogin() {
 
 function showRegister() {
     document.getElementById("settings").style.display = "none";
+    document.getElementById("newGame").style.display = "none";
     document.getElementById("login").style.display = "none";
     document.getElementById("register").style.display = "block";
     document.getElementById("welcome").style.display = "none";
@@ -301,6 +346,7 @@ function showRegister() {
 
 function showWelcome() {
     document.getElementById("settings").style.display = "none";
+    document.getElementById("newGame").style.display = "none";
     document.getElementById("login").style.display = "none";
     document.getElementById("register").style.display = "none";
     document.getElementById("welcome").style.display = "block";
@@ -308,6 +354,7 @@ function showWelcome() {
 }
 
 function showGame() {
+    document.getElementById("newGame").style.display = "none";
     numberOfBalls_value = document.getElementById("numberOfBalls").value;
     five_point_color_value = document.getElementById("fivePointBallColor").value;
     fifth_teen_point_color_value = document.getElementById("fifthTeenPointBallColor").value;
@@ -319,6 +366,14 @@ function showGame() {
     up_value = document.getElementById("up").value;
     down_value = document.getElementById("down").value;
     document.getElementById("userNameWithGame").innerText = document.getElementById("usernameLogin").value;
+    window.addEventListener("keydown", function(e) {
+        // space and arrow keys
+        if ([parseInt(document.getElementById("left").value), parseInt(document.getElementById("right").value),
+                parseInt(document.getElementById("up").value), parseInt(document.getElementById("down").value)
+            ].indexOf(e.keyCode) > -1) {
+            e.preventDefault();
+        }
+    }, false);
     if (!inputsAreValid()) {
         return;
     }
@@ -392,4 +447,15 @@ function inputsAreValid() {
         return false;
     }
     return true;
+}
+
+function startMusic() {
+    audio = new Audio('pacman_beginning.mp3');
+    audio.play();
+}
+
+
+function stopMusic() {
+    window.clearInterval(musicInterval);
+    audio.pause();
 }
