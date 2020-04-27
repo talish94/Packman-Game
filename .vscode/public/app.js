@@ -20,6 +20,7 @@ var down_value;
 var musicInterval;
 var audio = new Audio('pacman_beginning.mp3');
 var gameIsOnInterval;
+var pacDirection;
 
 //comments
 function Start() {
@@ -27,6 +28,7 @@ function Start() {
     score = 0;
     life = document.getElementById("lblLife");
     pac_color = "yellow";
+    pacDirection = 4; //right - default.
     var cnt = 144;
     var food_remain = numberOfBalls_value;
     let five_remain = food_remain * 0.6;
@@ -157,15 +159,19 @@ function findRandomEmptyCell(board) {
 
 function GetKeyPressed() {
     if (keysDown[up_value]) {
+        pacDirection = 1;
         return 1;
     }
     if (keysDown[down_value]) {
+        pacDirection = 2;
         return 2;
     }
     if (keysDown[left_value]) {
+        pacDirection = 3;
         return 3;
     }
     if (keysDown[right_value]) {
+        pacDirection = 4;
         return 4;
     }
 }
@@ -180,15 +186,37 @@ function Draw() {
             center.x = i * 60 + 30;
             center.y = j * 60 + 30;
             if (board[i][j] == 2) { //pacman
-                context.beginPath();
-                context.arc(center.x, center.y, 30, 0.15 * Math.PI, 1.85 * Math.PI); // half circle
-                context.lineTo(center.x, center.y);
-                context.fillStyle = pac_color; //color
-                context.fill();
-                context.beginPath();
-                context.arc(center.x + 5, center.y - 15, 5, 0, 2 * Math.PI); // circle //eye
-                context.fillStyle = "black"; //color
-                context.fill();
+
+                context = canvas.getContext('2d');
+                var pacImage = new Image();
+
+                // pacImage.src = 'pacmanR.jpg';
+                // context.drawImage(pacImage, center.x-23, center.y-20, 45, 45);
+
+                var pacImageR = new Image();
+                var pacImageL = new Image();
+                var pacImageU = new Image();
+                var pacImageD = new Image();
+
+                //checks what was the last move's direction. adds the correct image
+                if (pacDirection == 4){
+                    pacImageR.src = 'pacmanR.jpg';
+                    context.drawImage(pacImageR, center.x-23, center.y-20, 45, 45);
+                }
+                else if (pacDirection == 3){
+                    pacImageL.src = 'pacmanL.jpg';
+                    context.drawImage(pacImageL, center.x-23, center.y-20, 45, 45);
+               }   
+                else if (pacDirection == 1){
+                    pacImageU.src = 'pacmanU.jpg';
+                    context.drawImage(pacImageU, center.x-23, center.y-20, 45, 45);
+                }
+                else if (pacDirection == 2 ){
+                    pacImageD.src = 'pacmanD.jpg';
+                    context.drawImage(pacImageD, center.x-23, center.y-20, 45, 45);
+                }             
+                
+
             } else if (board[i][j] == 4) { //walls
                 context.beginPath();
                 context.rect(center.x - 30, center.y - 30, 60, 60);
@@ -209,6 +237,13 @@ function Draw() {
                 context.arc(center.x, center.y, 20, 0, 2 * Math.PI); // circle
                 context.fillStyle = twenty_five_point_color_value; //color
                 context.fill();
+
+            //} else if (board[i][j] == 3) { // monsters
+
+                // context = canvas.getContext('2d');
+                // var monsterImg = new Image();
+                // monsterImg.src = 'monsterRED.jpg';
+                // context.drawImage(monsterImg, center.x, center.y);
             }
         }
     }
@@ -217,24 +252,29 @@ function Draw() {
 function UpdatePosition() {
     board[shape.i][shape.j] = 0;
     var x = GetKeyPressed();
+    var whichSide = "";
     if (x == 1) {
         if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
             shape.j--;
+            whichSide = "left";
         }
     }
     if (x == 2) {
         if (shape.j < 11 && board[shape.i][shape.j + 1] != 4) {
             shape.j++;
+            whichSide = "right";
         }
     }
     if (x == 3) {
         if (shape.i > 0 && board[shape.i - 1][shape.j] != 4) {
             shape.i--;
+            whichSide = "up";
         }
     }
-    if (x == 4) {
+    if (x == 4) { 
         if (shape.i < 11 && board[shape.i + 1][shape.j] != 4) {
             shape.i++;
+            whichSide = "down";
         }
     }
     if (board[shape.i][shape.j] == 1) {
@@ -246,7 +286,7 @@ function UpdatePosition() {
     }
     if (board[shape.i][shape.j] == 3) { // eaten by a monster !!
         score = score - 10; //these are the rules.
-        var emptyCell = findRandomEmptyCell(board); //new start point for next round.
+        var emptyCell = findRandomEmptyCell(board); //new start point for the next round.
         board[emptyCell[0]][emptyCell[1]] = 2; //put pacman. 
 
         ////////////////////////////////////////            todo: לצייר באמת מפלצות בפינות הלוחחחח !!
@@ -255,16 +295,16 @@ function UpdatePosition() {
             board[0][0] = 3;
         else if (numOfMonsters == 2) {
             board[0][0] = 3;
-            board[9][9] = 3;
+            board[11][11] = 3;
         } else if (numOfMonsters == 3) {
             board[0][0] = 3;
-            board[9][9] = 3;
-            board[0][9] = 3;
+            board[11][11] = 3;
+            board[0][11] = 3;
         } else { //num = 4
             board[0][0] = 3;
-            board[9][9] = 3;
-            board[0][9] = 3;
-            board[9][0] = 3;
+            board[11][11] = 3;
+            board[0][11] = 3;
+            board[11][0] = 3;
         }
     }
 
