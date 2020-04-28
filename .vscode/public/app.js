@@ -21,14 +21,22 @@ var musicInterval;
 var audio = new Audio('pacman_beginning.mp3');
 var gameIsOnInterval;
 var pacDirection;
+var monstersInterval;
+var monsterRED_X;
+var monsterRED_Y;
+var monsters;
 
 //comments
 function Start() {
     board = new Array();
+    monsters = new Array();
+    life = 5;
     score = 0;
-    life = document.getElementById("lblLife");
+    //life = document.getElementById("lblLife");
     pac_color = "yellow";
     pacDirection = 4; //right - default.
+    monsterRED_X = 0;
+    monsterRED_Y = 0;
     var cnt = 144;
     var food_remain = numberOfBalls_value;
     let five_remain = food_remain * 0.6;
@@ -40,6 +48,7 @@ function Start() {
     gameIsOnInterval = setInterval(finishGame, parseInt(game_time_value) * 1000);
     for (var i = 0; i < 12; i++) {
         board[i] = new Array();
+        monsters[i] = new Array();
         //put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
         for (var j = 0; j < 12; j++) {
             if (
@@ -142,9 +151,10 @@ function Start() {
         },
         false
     );
-    interval = setInterval(UpdatePosition, 250);
+    interval = setInterval(UpdatePosition, 90);
     startMusic();
     musicInterval = setInterval(startMusic, 60000);
+    monstersInterval = setInterval(moveMonsters, 700);
 }
 
 function findRandomEmptyCell(board) {
@@ -180,11 +190,20 @@ function Draw() {
     canvas.width = canvas.width; //clean board
     lblScore.value = score;
     lblTime.value = time_elapsed;
+    lblLife.value = life;
+
+    context = canvas.getContext('2d');
+    var monsterRED = new Image();
+    monsterRED.src = 'monsterRED.jpg';
+    context.drawImage(monsterRED, monsterRED_X * 60 + 7, monsterRED_Y * 60 + 10, 45, 45);
+
     for (var i = 0; i < 12; i++) {
         for (var j = 0; j < 12; j++) {
             var center = new Object();
             center.x = i * 60 + 30;
             center.y = j * 60 + 30;
+
+        
             if (board[i][j] == 2) { //pacman
 
                 context = canvas.getContext('2d');
@@ -238,13 +257,21 @@ function Draw() {
                 context.fillStyle = twenty_five_point_color_value; //color
                 context.fill();
 
-            //} else if (board[i][j] == 3) { // monsters
+            // } else if (true) { // monsters
 
-                // context = canvas.getContext('2d');
-                // var monsterImg = new Image();
-                // monsterImg.src = 'monsterRED.jpg';
-                // context.drawImage(monsterImg, center.x, center.y);
+            //     if (i == monsterRED_X && j == monsterRED_Y){ // pacman got eaten!
+            //         context = canvas.getContext('2d');
+            //         var monsterImg = new Image();
+            //         monsterImg.src = 'monsterRED.jpg';
+            //         context.drawImage(monsterImg, center.x, center.y);
+            //     }
             }
+
+            context = canvas.getContext('2d');
+            var monsterRED = new Image();
+            monsterRED.src = 'monsterRED.jpg';
+            context.drawImage(monsterRED, monsterRED_X * 60 + 7, monsterRED_Y * 60 + 10, 45, 45);
+        
         }
     }
 }
@@ -284,29 +311,7 @@ function UpdatePosition() {
     } else if (board[shape.i][shape.j] == 6) {
         score = score + 25;
     }
-    if (board[shape.i][shape.j] == 3) { // eaten by a monster !!
-        score = score - 10; //these are the rules.
-        var emptyCell = findRandomEmptyCell(board); //new start point for the next round.
-        board[emptyCell[0]][emptyCell[1]] = 2; //put pacman. 
-
-        ////////////////////////////////////////            todo: לצייר באמת מפלצות בפינות הלוחחחח !!
-        var numOfMonsters = number_of_monsters_value;
-        if (numOfMonsters == 1)
-            board[0][0] = 3;
-        else if (numOfMonsters == 2) {
-            board[0][0] = 3;
-            board[11][11] = 3;
-        } else if (numOfMonsters == 3) {
-            board[0][0] = 3;
-            board[11][11] = 3;
-            board[0][11] = 3;
-        } else { //num = 4
-            board[0][0] = 3;
-            board[11][11] = 3;
-            board[0][11] = 3;
-            board[11][0] = 3;
-        }
-    }
+    
 
     board[shape.i][shape.j] = 2;
     var currentTime = new Date();
@@ -499,3 +504,63 @@ function stopMusic() {
     window.clearInterval(musicInterval);
     audio.pause();
 }
+
+function moveMonsters() { //only update their locations.
+   if (pacDirection == 1){ //up
+        if (board[monsterRED_X][monsterRED_Y-1] != 4) // not a wall.
+            monsterRED_Y--;
+   }
+   else if (pacDirection == 2){ //down
+        if (board[monsterRED_X][monsterRED_Y+1] != 4) // not a wall.
+            monsterRED_Y++;
+    }  
+    else if (pacDirection == 3){ //left
+        if (board[monsterRED_X-1][monsterRED_Y] != 4) // not a wall.
+            monsterRED_X--;
+    }  
+    else if (pacDirection == 4){ //right
+        if (board[monsterRED_X+1][monsterRED_Y] != 4) // not a wall.
+            monsterRED_X++;
+    }   
+
+    if (board[monsterRED_X][monsterRED_Y] == 2){ //its a pacman
+       // startNewRound();
+        //Draw();
+    } 
+}
+
+
+function startNewRound() {
+
+    board[shape.i][shape.j] = 0;
+    //board[i][j] = 0
+
+    score = score - 10; //these are the rules.
+    life--;
+    var emptyCell = findRandomEmptyCell(board); //new start point for the next round.
+    board[emptyCell[0]][emptyCell[1]] = 2; //put pacman. 
+
+        ////////////////////////////////////////            todo: לצייר באמת מפלצות בפינות הלוחחחח !!
+        //var numOfMonsters = number_of_monsters_value;
+        //if (number_of_monsters_value == 1){
+            monsterRED_X = 0;
+            monsterRED_Y = 0;
+       // }
+        // else if (number_of_monsters_value == 2) {
+        //     board[0][0] = 3;
+        //     board[11][11] = 3;
+        // } else if (number_of_monsters_value == 3) {
+        //     board[0][0] = 3;
+        //     board[11][11] = 3;
+        //     board[0][11] = 3;
+        // } else { //num = 4
+        //     board[0][0] = 3;
+        //     board[11][11] = 3;
+        //     board[0][11] = 3;
+        //     board[11][0] = 3;
+        // }
+
+        //Draw();
+    }
+
+
