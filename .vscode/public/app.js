@@ -25,18 +25,26 @@ var monstersInterval;
 var monsterRED_X;
 var monsterRED_Y;
 var monsters;
-
+var specialBall = new Object();
+var specialBallInterval;
+var eatCandy;
+var specialTemp = new Object();
+var counterSteps = 0;
 //comments
 function Start() {
     board = new Array();
     monsters = new Array();
     life = 5;
     score = 0;
-    //life = document.getElementById("lblLife");
     pac_color = "yellow";
     pacDirection = 4; //right - default.
     monsterRED_X = 0;
     monsterRED_Y = 0;
+    specialBall.i = 11;
+    specialBall.j = 0;
+    specialTemp.i = specialBall.i;
+    specialTemp.j = specialBall.j;
+    eatCandy = false;
     var cnt = 144;
     var food_remain = numberOfBalls_value;
     let five_remain = food_remain * 0.6;
@@ -155,6 +163,7 @@ function Start() {
     startMusic();
     musicInterval = setInterval(startMusic, 60000);
     monstersInterval = setInterval(moveMonsters, 700);
+    specialBallInterval = setInterval(moveSpeicalBall, 700);
 }
 
 function findRandomEmptyCell(board) {
@@ -203,7 +212,7 @@ function Draw() {
             center.x = i * 60 + 30;
             center.y = j * 60 + 30;
 
-        
+
             if (board[i][j] == 2) { //pacman
 
                 context = canvas.getContext('2d');
@@ -218,23 +227,19 @@ function Draw() {
                 var pacImageD = new Image();
 
                 //checks what was the last move's direction. adds the correct image
-                if (pacDirection == 4){
+                if (pacDirection == 4) {
                     pacImageR.src = 'pacmanR.jpg';
-                    context.drawImage(pacImageR, center.x-23, center.y-20, 45, 45);
-                }
-                else if (pacDirection == 3){
+                    context.drawImage(pacImageR, center.x - 23, center.y - 20, 45, 45);
+                } else if (pacDirection == 3) {
                     pacImageL.src = 'pacmanL.jpg';
-                    context.drawImage(pacImageL, center.x-23, center.y-20, 45, 45);
-               }   
-                else if (pacDirection == 1){
+                    context.drawImage(pacImageL, center.x - 23, center.y - 20, 45, 45);
+                } else if (pacDirection == 1) {
                     pacImageU.src = 'pacmanU.jpg';
-                    context.drawImage(pacImageU, center.x-23, center.y-20, 45, 45);
-                }
-                else if (pacDirection == 2 ){
+                    context.drawImage(pacImageU, center.x - 23, center.y - 20, 45, 45);
+                } else if (pacDirection == 2) {
                     pacImageD.src = 'pacmanD.jpg';
-                    context.drawImage(pacImageD, center.x-23, center.y-20, 45, 45);
-                }             
-                
+                    context.drawImage(pacImageD, center.x - 23, center.y - 20, 45, 45);
+                }
 
             } else if (board[i][j] == 4) { //walls
                 context.beginPath();
@@ -257,21 +262,24 @@ function Draw() {
                 context.fillStyle = twenty_five_point_color_value; //color
                 context.fill();
 
-            // } else if (true) { // monsters
+                // } else if (true) { // monsters
 
-            //     if (i == monsterRED_X && j == monsterRED_Y){ // pacman got eaten!
-            //         context = canvas.getContext('2d');
-            //         var monsterImg = new Image();
-            //         monsterImg.src = 'monsterRED.jpg';
-            //         context.drawImage(monsterImg, center.x, center.y);
-            //     }
+                //     if (i == monsterRED_X && j == monsterRED_Y){ // pacman got eaten!
+                //         context = canvas.getContext('2d');
+                //         var monsterImg = new Image();
+                //         monsterImg.src = 'monsterRED.jpg';
+                //         context.drawImage(monsterImg, center.x, center.y);
+                //     }
             }
-
+            if (!eatCandy) {
+                var candy50 = new Image();
+                candy50.src = 'candy50.png';
+                context.drawImage(candy50, specialBall.i * 60 + 7, specialBall.j * 60 + 10, 45, 45);
+            }
             context = canvas.getContext('2d');
             var monsterRED = new Image();
             monsterRED.src = 'monsterRED.jpg';
             context.drawImage(monsterRED, monsterRED_X * 60 + 7, monsterRED_Y * 60 + 10, 45, 45);
-        
         }
     }
 }
@@ -280,39 +288,50 @@ function UpdatePosition() {
     board[shape.i][shape.j] = 0;
     var x = GetKeyPressed();
     var whichSide = "";
+
     if (x == 1) {
         if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
             shape.j--;
             whichSide = "left";
         }
     }
+
+
     if (x == 2) {
         if (shape.j < 11 && board[shape.i][shape.j + 1] != 4) {
             shape.j++;
             whichSide = "right";
         }
     }
+
+
     if (x == 3) {
         if (shape.i > 0 && board[shape.i - 1][shape.j] != 4) {
             shape.i--;
             whichSide = "up";
         }
     }
-    if (x == 4) { 
+
+    if (x == 4) {
         if (shape.i < 11 && board[shape.i + 1][shape.j] != 4) {
             shape.i++;
             whichSide = "down";
         }
     }
+
     if (board[shape.i][shape.j] == 1) {
         score = score + 5;
     } else if (board[shape.i][shape.j] == 5) {
         score = score + 15;
     } else if (board[shape.i][shape.j] == 6) {
         score = score + 25;
+    } else if (shape.i == specialBall.i && shape.j == specialBall.j) {
+        specialBall.i = -1;
+        specialBall.j = -1;
+        score = score + 50;
+        window.clearInterval(specialBallInterval);
+        eatCandy = true;
     }
-    
-
     board[shape.i][shape.j] = 2;
     var currentTime = new Date();
     time_elapsed = (currentTime - start_time) / 1000;
@@ -322,11 +341,13 @@ function UpdatePosition() {
     let winningScore = numberOfBalls_value * 0.6 * 5 + numberOfBalls_value * 0.3 * 15 + numberOfBalls_value * 0.1 * 25;
     if (score == winningScore) {
         window.clearInterval(interval);
+        window.clearInterval(specialBallInterval);
         window.alert("Game completed");
         stopMusic();
         document.getElementById("newGame").style.display = "block";
     } else if (life == 0) {
         window.clearInterval(interval);
+        window.clearInterval(specialBallInterval);
         window.alert("Loser!");
         stopMusic();
         document.getElementById("newGame").style.display = "block";
@@ -339,6 +360,7 @@ function UpdatePosition() {
 function finishGame() {
     window.clearInterval(interval);
     window.clearInterval(gameIsOnInterval);
+    window.clearInterval(specialBallInterval);
     if (score < 100) {
         window.alert("You are better than " + score + " points!")
     } else {
@@ -506,27 +528,24 @@ function stopMusic() {
 }
 
 function moveMonsters() { //only update their locations.
-   if (pacDirection == 1){ //up
-        if (board[monsterRED_X][monsterRED_Y-1] != 4) // not a wall.
+    if (pacDirection == 1) { //up
+        if (board[monsterRED_X][monsterRED_Y - 1] != 4) // not a wall.
             monsterRED_Y--;
-   }
-   else if (pacDirection == 2){ //down
-        if (board[monsterRED_X][monsterRED_Y+1] != 4) // not a wall.
+    } else if (pacDirection == 2) { //down
+        if (board[monsterRED_X][monsterRED_Y + 1] != 4) // not a wall.
             monsterRED_Y++;
-    }  
-    else if (pacDirection == 3){ //left
-        if (board[monsterRED_X-1][monsterRED_Y] != 4) // not a wall.
+    } else if (pacDirection == 3) { //left
+        if (board[monsterRED_X - 1][monsterRED_Y] != 4) // not a wall.
             monsterRED_X--;
-    }  
-    else if (pacDirection == 4){ //right
-        if (board[monsterRED_X+1][monsterRED_Y] != 4) // not a wall.
+    } else if (pacDirection == 4) { //right
+        if (board[monsterRED_X + 1][monsterRED_Y] != 4) // not a wall.
             monsterRED_X++;
-    }   
+    }
 
-    if (board[monsterRED_X][monsterRED_Y] == 2){ //its a pacman
-       // startNewRound();
+    if (board[monsterRED_X][monsterRED_Y] == 2) { //its a pacman
+        // startNewRound();
         //Draw();
-    } 
+    }
 }
 
 
@@ -540,27 +559,108 @@ function startNewRound() {
     var emptyCell = findRandomEmptyCell(board); //new start point for the next round.
     board[emptyCell[0]][emptyCell[1]] = 2; //put pacman. 
 
-        ////////////////////////////////////////            todo: לצייר באמת מפלצות בפינות הלוחחחח !!
-        //var numOfMonsters = number_of_monsters_value;
-        //if (number_of_monsters_value == 1){
-            monsterRED_X = 0;
-            monsterRED_Y = 0;
-       // }
-        // else if (number_of_monsters_value == 2) {
-        //     board[0][0] = 3;
-        //     board[11][11] = 3;
-        // } else if (number_of_monsters_value == 3) {
-        //     board[0][0] = 3;
-        //     board[11][11] = 3;
-        //     board[0][11] = 3;
-        // } else { //num = 4
-        //     board[0][0] = 3;
-        //     board[11][11] = 3;
-        //     board[0][11] = 3;
-        //     board[11][0] = 3;
-        // }
+    ////////////////////////////////////////            todo: לצייר באמת מפלצות בפינות הלוחחחח !!
+    //var numOfMonsters = number_of_monsters_value;
+    //if (number_of_monsters_value == 1){
+    monsterRED_X = 0;
+    monsterRED_Y = 0;
+    // }
+    // else if (number_of_monsters_value == 2) {
+    //     board[0][0] = 3;
+    //     board[11][11] = 3;
+    // } else if (number_of_monsters_value == 3) {
+    //     board[0][0] = 3;
+    //     board[11][11] = 3;
+    //     board[0][11] = 3;
+    // } else { //num = 4
+    //     board[0][0] = 3;
+    //     board[11][11] = 3;
+    //     board[0][11] = 3;
+    //     board[11][0] = 3;
+    // }
 
-        //Draw();
+    //Draw();
+}
+
+function moveSpeicalBall() {
+    if (counterSteps == 3) {
+        counterSteps = 0;
+        specialTemp.i = specialBall.i;
+        specialTemp.j = specialBall.j;
+    } else if ((specialTemp.i - 1 == specialBall.i) && (specialTemp.j == specialBall.j)) { // last move was left
+        if (specialBall.i > 0 && board[specialBall.i - 1][specialBall.j] != 4) {
+            specialTemp.i = specialBall.i;
+            specialTemp.j = specialBall.j;
+            specialBall.i--;
+            counterSteps++;
+        } else {
+            specialTemp.i = specialBall.i;
+            specialTemp.j = specialBall.j;
+        }
+    } else if (specialTemp.i + 1 == specialBall.i && specialTemp.j == specialBall.j) { // last move was right
+        if (specialBall.i < 11 && board[specialBall.i + 1][specialBall.j] != 4) {
+            specialTemp.i = specialBall.i;
+            specialTemp.j = specialBall.j;
+            specialBall.i++;
+            counterSteps++;
+        } else {
+            specialTemp.i = specialBall.i;
+            specialTemp.j = specialBall.j;
+        }
+    } else if (specialTemp.i == specialBall.i && specialTemp.j - 1 == specialBall.j) { // last move was up
+        if (specialBall.j > 0 && board[specialBall.i][specialBall.j - 1] != 4) {
+            specialTemp.i = specialBall.i;
+            specialTemp.j = specialBall.j;
+            specialBall.j--;
+            counterSteps++;
+        } else {
+            specialTemp.i = specialBall.i;
+            specialTemp.j = specialBall.j;
+        }
+    } else if (specialTemp.i == specialBall.i && specialTemp.j + 1 == specialBall.j) { // last move was down
+        if (specialBall.j < 11 && board[specialBall.i][specialBall.j + 1] != 4) {
+            specialTemp.i = specialBall.i;
+            specialTemp.j = specialBall.j;
+            specialBall.j++;
+            counterSteps++;
+        } else {
+            specialTemp.i = specialBall.i;
+            specialTemp.j = specialBall.j;
+        }
     }
+    if (specialBall.i == specialTemp.i && specialTemp.j == specialBall.j) { // if after all the candy didnt move
+        moveRandomSpeicalBall();
+    }
+}
 
-
+function moveRandomSpeicalBall() {
+    let randomNumber = Math.floor(Math.random() * 1000);
+    if (randomNumber <= 250) {
+        if (specialBall.j > 0 && board[specialBall.i][specialBall.j - 1] != 4) {
+            specialTemp.i = specialBall.i;
+            specialTemp.j = specialBall.j;
+            specialBall.j--;
+        }
+    } else if (randomNumber > 250 && randomNumber <= 500) {
+        if (specialBall.j < 11 && board[specialBall.i][specialBall.j + 1] != 4) {
+            specialTemp.i = specialBall.i;
+            specialTemp.j = specialBall.j;
+            specialBall.j++;
+        }
+    } else if (randomNumber > 500 && randomNumber <= 750) {
+        if (specialBall.i > 0 && board[specialBall.i - 1][specialBall.j] != 4) {
+            specialTemp.i = specialBall.i;
+            specialTemp.j = specialBall.j;
+            specialBall.i--;
+        }
+    } else if (randomNumber > 750) {
+        if (specialBall.i < 11 && board[specialBall.i + 1][specialBall.j] != 4) {
+            specialTemp.i = specialBall.i;
+            specialTemp.j = specialBall.j;
+            specialBall.i++;
+        }
+    }
+    if (specialBall.i == specialTemp.i && specialTemp.j == specialBall.j) { // if after all the candy didnt move
+        moveSpeicalBall();
+    }
+}
