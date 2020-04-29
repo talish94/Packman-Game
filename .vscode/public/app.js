@@ -21,10 +21,19 @@ var musicInterval;
 var audio = new Audio('pacman_beginning.mp3');
 var gameIsOnInterval;
 var pacDirection;
+
 var monstersInterval;
+var clock_X;
+var clock_Y;
 var monsterRED_X;
 var monsterRED_Y;
-var monsters;
+var monsterGREEN_X;
+var monsterGREEN_Y;
+var monsterYELLOW_X;
+var monsterYELLOW_Y;
+var monsterBLUE_X;
+var monsterBLUE_Y;
+
 var specialBall = new Object();
 var specialBallInterval;
 var eatCandy;
@@ -38,8 +47,9 @@ function Start() {
     score = 0;
     pac_color = "yellow";
     pacDirection = 4; //right - default.
-    monsterRED_X = 0;
-    monsterRED_Y = 0;
+   
+    startMonstersFromEnds();
+
     specialBall.i = 11;
     specialBall.j = 0;
     specialTemp.i = specialBall.i;
@@ -54,6 +64,7 @@ function Start() {
     var pacman_remain = 1;
     start_time = new Date();
     gameIsOnInterval = setInterval(finishGame, parseInt(game_time_value) * 1000);
+
     for (var i = 0; i < 12; i++) {
         board[i] = new Array();
         monsters[i] = new Array();
@@ -164,6 +175,11 @@ function Start() {
     musicInterval = setInterval(startMusic, 60000);
     monstersInterval = setInterval(moveMonsters, 700);
     specialBallInterval = setInterval(moveSpeicalBall, 700);
+
+    var clockPlace = findRandomEmptyCell(board);
+    // clock_X = clockPlace[0];
+    // clock_Y = clockPlace[1];
+    board[clockPlace[0]][clockPlace[1]] = 8;
 }
 
 function findRandomEmptyCell(board) {
@@ -200,11 +216,6 @@ function Draw() {
     lblScore.value = score;
     lblTime.value = time_elapsed;
     lblLife.value = life;
-
-    context = canvas.getContext('2d');
-    var monsterRED = new Image();
-    monsterRED.src = 'monsterRED.jpg';
-    context.drawImage(monsterRED, monsterRED_X * 60 + 7, monsterRED_Y * 60 + 10, 45, 45);
 
     for (var i = 0; i < 12; i++) {
         for (var j = 0; j < 12; j++) {
@@ -262,25 +273,46 @@ function Draw() {
                 context.fillStyle = twenty_five_point_color_value; //color
                 context.fill();
 
-                // } else if (true) { // monsters
-
-                //     if (i == monsterRED_X && j == monsterRED_Y){ // pacman got eaten!
-                //         context = canvas.getContext('2d');
-                //         var monsterImg = new Image();
-                //         monsterImg.src = 'monsterRED.jpg';
-                //         context.drawImage(monsterImg, center.x, center.y);
-                //     }
+            } else if (board[i][j] == 8) { // a clock
+                var clockImg = new Image();
+                clockImg.src = 'clock.png';
+                context.drawImage(clockImg, i * 60 + 7, j * 60 + 10, 40, 45);
             }
+
             if (!eatCandy) {
                 var candy50 = new Image();
                 candy50.src = 'candy50.png';
                 context.drawImage(candy50, specialBall.i * 60 + 7, specialBall.j * 60 + 10, 45, 45);
             }
-            context = canvas.getContext('2d');
-            var monsterRED = new Image();
-            monsterRED.src = 'monsterRED.jpg';
-            context.drawImage(monsterRED, monsterRED_X * 60 + 7, monsterRED_Y * 60 + 10, 45, 45);
+            // context = canvas.getContext('2d');
+            // var monsterRED = new Image();
+            // monsterRED.src = 'monsterRED.jpg';
+            // context.drawImage(monsterRED, monsterRED_X * 60 + 7, monsterRED_Y * 60 + 10, 45, 45);
         }
+    }
+
+    //draws all monsters in the game:
+    context = canvas.getContext('2d');
+
+    if(monsterRED_X != -1){ //means this monster exists in the game.
+        var monsterRED = new Image();
+        monsterRED.src = 'monsterRED.jpg';
+        context.drawImage(monsterRED, monsterRED_X * 60 + 7, monsterRED_Y * 60 + 10, 45, 45);
+    }
+    if(monsterBLUE_X != -1){
+        var monsterBLUE = new Image();
+        monsterBLUE.src = 'monsterBLUE.jpg';
+        context.drawImage(monsterBLUE, monsterBLUE_X * 60 + 7, monsterBLUE_Y * 60 + 10, 45, 45);
+    }
+    if(monsterGREEN_X != -1){
+        var monsterGREEN = new Image();
+        monsterGREEN.src = 'monsterGREEN.jpg';
+        context.drawImage(monsterGREEN, monsterGREEN_X * 60 + 7, monsterGREEN_Y * 60 + 10, 45, 45);
+    }
+    if(monsterYELLOW_X != -1){
+        var monsterYELLOW = new Image();
+        monsterYELLOW.src = 'monsterYELLOW.jpg';
+        context.drawImage(monsterYELLOW, monsterYELLOW_X * 60 + 7, monsterYELLOW_Y * 60 + 10, 45, 45);
     }
 }
 
@@ -331,7 +363,14 @@ function UpdatePosition() {
         score = score + 50;
         window.clearInterval(specialBallInterval);
         eatCandy = true;
+    } else if (board[shape.i][shape.j] == 8){
+        game_time_value = parseInt(game_time_value) + 40; //adds bonus time
+        board[shape.i][shape.j] == 0; // there is no clock any longer.
+    } else if (shape.i == monsterRED_X && shape.j == monsterRED_Y) { //got eaten by a monster
+        startNewRound();
+        Draw();
     }
+
     board[shape.i][shape.j] = 2;
     var currentTime = new Date();
     time_elapsed = (currentTime - start_time) / 1000;
@@ -529,22 +568,54 @@ function stopMusic() {
 
 function moveMonsters() { //only update their locations.
     if (pacDirection == 1) { //up
-        if (board[monsterRED_X][monsterRED_Y - 1] != 4) // not a wall.
+        if ((monsterRED_X != -1) && (monsterRED_Y - 1 >= 0) && (board[monsterRED_X][monsterRED_Y - 1] != 4)) // not a wall.
             monsterRED_Y--;
+        if ((monsterYELLOW_X != -1) && (monsterYELLOW_Y - 1 >= 0) && (board[monsterYELLOW_X][monsterYELLOW_Y - 1] != 4)) // not a wall.
+            monsterYELLOW_Y--;
+        if ((monsterBLUE_X != -1) && (monsterBLUE_Y - 1 >= 0) && (board[monsterBLUE_X][monsterBLUE_Y - 1] != 4)) // not a wall.
+            monsterBLUE_Y--;
+        if ((monsterGREEN_X != -1) && (monsterGREEN_Y - 1 >= 0) && (board[monsterGREEN_X][monsterGREEN_Y - 1] != 4)) // not a wall.
+            monsterGREEN_Y--;
+        
     } else if (pacDirection == 2) { //down
-        if (board[monsterRED_X][monsterRED_Y + 1] != 4) // not a wall.
+        if ((monsterRED_X != -1) && (monsterRED_Y + 1 < 12) && (board[monsterRED_X][monsterRED_Y + 1] != 4)) // not a wall.
             monsterRED_Y++;
+        if ((monsterYELLOW_X != -1) && (monsterYELLOW_Y + 1 < 12) && (board[monsterYELLOW_X][monsterYELLOW_Y + 1] != 4)) // not a wall.
+            monsterYELLOW_Y++;
+        if ((monsterBLUE_X != -1) && (monsterBLUE_Y + 1 < 12) && (board[monsterBLUE_X][monsterBLUE_Y + 1] != 4)) // not a wall.
+            monsterBLUE_Y++;
+        if ((monsterGREEN_X != -1) && (monsterGREEN_Y + 1 < 12) && (board[monsterGREEN_X][monsterGREEN_Y + 1] != 4)) // not a wall.
+            monsterGREEN_Y++;
+        
+    
     } else if (pacDirection == 3) { //left
-        if (board[monsterRED_X - 1][monsterRED_Y] != 4) // not a wall.
+        if ((monsterRED_X != -1) && (monsterRED_X - 1 >= 0) && (board[monsterRED_X - 1][monsterRED_Y] != 4)) // not a wall.
             monsterRED_X--;
+        if ((monsterYELLOW_X != -1) && (monsterYELLOW_X - 1 >= 0) && (board[monsterYELLOW_X - 1][monsterYELLOW_Y] != 4)) // not a wall.
+            monsterYELLOW_X--;
+        if ((monsterBLUE_X != -1) && (monsterBLUE_X - 1 >= 0) && (board[monsterBLUE_X - 1][monsterBLUE_Y] != 4)) // not a wall.
+            monsterBLUE_X--;
+        if ((monsterGREEN_X != -1) && (monsterGREEN_X - 1 >= 0) && (board[monsterGREEN_X - 1][monsterGREEN_Y] != 4)) // not a wall.
+            monsterGREEN_X--;
+        
     } else if (pacDirection == 4) { //right
-        if (board[monsterRED_X + 1][monsterRED_Y] != 4) // not a wall.
+        if ((monsterRED_X != -1) && (monsterRED_X + 1 < 12) && (board[monsterRED_X + 1][monsterRED_Y] != 4))// not a wall.
             monsterRED_X++;
+        if ((monsterYELLOW_X != -1) && (monsterYELLOW_X + 1 < 12) && (board[monsterYELLOW_X + 1][monsterYELLOW_Y] != 4)) // not a wall.
+            monsterYELLOW_X++;
+        if ((monsterBLUE_X != -1) && (monsterBLUE_X + 1 < 12) && (board[monsterBLUE_X + 1][monsterBLUE_Y] != 4)) // not a wall.
+            monsterBLUE_X++;
+        if ((monsterGREEN_X != -1) && (monsterGREEN_X + 1 < 12) && (board[monsterGREEN_X + 1][monsterGREEN_Y] != 4)) // not a wall.
+            monsterGREEN_X++;
+        
     }
 
-    if (board[monsterRED_X][monsterRED_Y] == 2) { //its a pacman
-        // startNewRound();
-        //Draw();
+    if ( ((monsterRED_X != -1) && (board[monsterRED_X][monsterRED_Y] == 2)) ||
+    ((monsterRED_X != -1) && (board[monsterGREEN_X][monsterGREEN_Y] == 2)) || 
+    ((monsterBLUE_X != -1 ) && (board[monsterBLUE_X][monsterBLUE_Y] == 2)) ||
+    ((monsterYELLOW_X != -1) && (board[monsterYELLOW_X][monsterYELLOW_Y] == 2 ))){ //its a pacman
+        startNewRound();
+        Draw();
     }
 }
 
@@ -558,28 +629,38 @@ function startNewRound() {
     life--;
     var emptyCell = findRandomEmptyCell(board); //new start point for the next round.
     board[emptyCell[0]][emptyCell[1]] = 2; //put pacman. 
+    shape.i = emptyCell[0];
+    shape.j = emptyCell[1];
 
-    ////////////////////////////////////////            todo: לצייר באמת מפלצות בפינות הלוחחחח !!
-    //var numOfMonsters = number_of_monsters_value;
-    //if (number_of_monsters_value == 1){
-    monsterRED_X = 0;
-    monsterRED_Y = 0;
-    // }
-    // else if (number_of_monsters_value == 2) {
-    //     board[0][0] = 3;
-    //     board[11][11] = 3;
-    // } else if (number_of_monsters_value == 3) {
-    //     board[0][0] = 3;
-    //     board[11][11] = 3;
-    //     board[0][11] = 3;
-    // } else { //num = 4
-    //     board[0][0] = 3;
-    //     board[11][11] = 3;
-    //     board[0][11] = 3;
-    //     board[11][0] = 3;
-    // }
+    startMonstersFromEnds();
+    Draw();
+}
 
-    //Draw();
+function startMonstersFromEnds(){ //by number of monsters chosen.
+    if (number_of_monsters_value >= 1){
+        monsterRED_X = 0;
+        monsterRED_Y = 0;
+
+        monsterGREEN_X = -1; //not in the game;
+        monsterGREEN_Y = -1;
+        monsterYELLOW_X = -1;
+        monsterYELLOW_Y = -1;
+        monsterBLUE_X = -1;
+        monsterBLUE_Y = -1;
+
+    }
+    if (number_of_monsters_value >= 2) {
+        monsterGREEN_X = 11;
+        monsterGREEN_Y = 11;
+
+    } if (number_of_monsters_value >= 3) {
+        monsterYELLOW_X = 0;
+        monsterYELLOW_Y = 11;
+
+    } if (number_of_monsters_value == 4) {
+        monsterBLUE_X = 10;
+        monsterBLUE_Y = 0;
+    }
 }
 
 function moveSpeicalBall() {
