@@ -21,7 +21,7 @@ var musicInterval;
 var audio = new Audio('pacman_beginning.mp3');
 var gameIsOnInterval;
 var pacDirection;
-
+var audioFail = new Audio('Cut_fail.mp3');
 var monstersInterval;
 var clock_X;
 var clock_Y;
@@ -618,6 +618,7 @@ function moveMonsters() { //only update their locations.
     ((monsterRED_X != -1) && (board[monsterGREEN_X][monsterGREEN_Y] == 2)) || 
     ((monsterBLUE_X != -1 ) && (board[monsterBLUE_X][monsterBLUE_Y] == 2)) ||
     ((monsterYELLOW_X != -1) && (board[monsterYELLOW_X][monsterYELLOW_Y] == 2 ))){ //its a pacman
+        pacmanFailMusic();
         startNewRound();
         Draw();
     }
@@ -665,6 +666,11 @@ function startMonstersFromEnds(){ //by number of monsters chosen.
         monsterBLUE_X = 10;
         monsterBLUE_Y = 0;
     }
+}
+
+function pacmanFailMusic() {
+    audioFail = new Audio('Cut_fail.mp3');
+    audioFail.play();
 }
 
 function moveSpeicalBall() {
