@@ -216,6 +216,7 @@ function Draw() {
     lblScore.value = score;
     lblTime.value = time_elapsed;
     lblLife.value = life;
+    gameTime.value = game_time_value;
 
     for (var i = 0; i < 12; i++) {
         for (var j = 0; j < 12; j++) {
@@ -365,7 +366,10 @@ function UpdatePosition() {
         eatCandy = true;
     } else if (board[shape.i][shape.j] == 8){
         game_time_value = parseInt(game_time_value) + 40; //adds bonus time
+       // document.getElementById("timeForGame").value = game_time_value; //update the table display also.
+        document.getElementById("gameTime").innerHTML = game_time_value; //update the table display also.
         board[shape.i][shape.j] == 0; // there is no clock any longer.
+        Draw();
     } else if (shape.i == monsterRED_X && shape.j == monsterRED_Y) { //got eaten by a monster
         startNewRound();
         Draw();
