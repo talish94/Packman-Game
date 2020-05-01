@@ -33,13 +33,13 @@ var monsterYELLOW_X;
 var monsterYELLOW_Y;
 var monsterBLUE_X;
 var monsterBLUE_Y;
-
 var specialBall = new Object();
 var specialBallInterval;
 var eatCandy;
 var specialTemp = new Object();
 var counterSteps = 0;
-//comments
+
+
 function Start() {
     board = new Array();
     monsters = new Array();
@@ -47,9 +47,7 @@ function Start() {
     score = 0;
     pac_color = "yellow";
     pacDirection = 4; //right - default.
-   
     startMonstersFromEnds();
-
     specialBall.i = 11;
     specialBall.j = 0;
     specialTemp.i = specialBall.i;
@@ -72,15 +70,14 @@ function Start() {
         for (var j = 0; j < 12; j++) {
             if (
                 (i == 3 && j == 3) ||
-                (i == 3 && j == 4) ||
                 (i == 3 && j == 5) ||
                 (i == 6 && j == 1) ||
                 (i == 6 && j == 2) ||
-                (i == 0 && j == 0) ||
                 (i == 1 && j == 0) ||
                 (i == 2 && j == 0) ||
                 (i == 2 && j == 1) ||
                 (i == 3 && j == 1) ||
+                (i == 3 && j == 2) ||
                 (i == 4 && j == 5) ||
                 (i == 5 && j == 5) ||
                 (i == 6 && j == 5) ||
@@ -92,7 +89,6 @@ function Start() {
                 (i == 8 && j == 9) ||
                 (i == 9 && j == 9) ||
                 (i == 9 && j == 8) ||
-                (i == 0 && j == 11) ||
                 (i == 11 && j == 3) ||
                 (i == 11 && j == 4) ||
                 (i == 11 && j == 5) ||
@@ -102,37 +98,41 @@ function Start() {
             ) {
                 board[i][j] = 4;
             } else {
-                var randomNum = Math.random();
-                if (randomNum <= (1.0 * food_remain) / cnt) {
-                    var rand = Math.floor(Math.random() * 3);
-                    if (rand == 0) {
-                        if (five_remain > 0) {
-                            board[i][j] = 1;
-                            five_remain--;
-                        }
-                    } else if (rand == 1) {
-                        if (fifthTeen_remain > 0) {
-                            board[i][j] = 5;
-                            fifthTeen_remain--;
-                        }
-                    } else if (rand == 2) {
-                        if (twentyFive_remain > 0) {
-                            board[i][j] = 6;
-                            twentyFive_remain--;
-                        }
-                    }
-                    if (typeof board[i][j] == 'undefined') {
-                        board[i][j] = 0;
-                    } else {
-                        food_remain--;
-                    }
-                } else if (randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
-                    shape.i = i;
-                    shape.j = j;
-                    pacman_remain--;
-                    board[i][j] = 2;
-                } else {
+                if ((i == 0 && j == 0) || (i == 11 && j == 11) || i == 0 && j == 11 || i == 11 && j == 0) {
                     board[i][j] = 0;
+                } else {
+                    var randomNum = Math.random();
+                    if (randomNum <= (1.0 * food_remain) / cnt) {
+                        var rand = Math.floor(Math.random() * 3);
+                        if (rand == 0) {
+                            if (five_remain > 0) {
+                                board[i][j] = 1;
+                                five_remain--;
+                            }
+                        } else if (rand == 1) {
+                            if (fifthTeen_remain > 0) {
+                                board[i][j] = 5;
+                                fifthTeen_remain--;
+                            }
+                        } else if (rand == 2) {
+                            if (twentyFive_remain > 0) {
+                                board[i][j] = 6;
+                                twentyFive_remain--;
+                            }
+                        }
+                        if (typeof board[i][j] == 'undefined') {
+                            board[i][j] = 0;
+                        } else {
+                            food_remain--;
+                        }
+                    } else if (i != 0 && randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
+                        shape.i = i;
+                        shape.j = j;
+                        pacman_remain--;
+                        board[i][j] = 2;
+                    } else {
+                        board[i][j] = 0;
+                    }
                 }
                 cnt--;
             }
@@ -173,12 +173,12 @@ function Start() {
     interval = setInterval(UpdatePosition, 90);
     startMusic();
     musicInterval = setInterval(startMusic, 60000);
-    monstersInterval = setInterval(moveMonsters, 700);
-    specialBallInterval = setInterval(moveSpeicalBall, 700);
+    // monstersInterval = setInterval(moveMonsters, 700);
 
+    monstersInterval = setInterval(moveMonsters2, 700);
+
+    specialBallInterval = setInterval(moveSpeicalBall, 700);
     var clockPlace = findRandomEmptyCell(board);
-    // clock_X = clockPlace[0];
-    // clock_Y = clockPlace[1];
     board[clockPlace[0]][clockPlace[1]] = 8;
 }
 
@@ -217,27 +217,17 @@ function Draw() {
     lblTime.value = time_elapsed;
     lblLife.value = life;
     gameTime.value = game_time_value;
-
     for (var i = 0; i < 12; i++) {
         for (var j = 0; j < 12; j++) {
             var center = new Object();
             center.x = i * 60 + 30;
             center.y = j * 60 + 30;
-
-
             if (board[i][j] == 2) { //pacman
-
                 context = canvas.getContext('2d');
-                var pacImage = new Image();
-
-                // pacImage.src = 'pacmanR.jpg';
-                // context.drawImage(pacImage, center.x-23, center.y-20, 45, 45);
-
                 var pacImageR = new Image();
                 var pacImageL = new Image();
                 var pacImageU = new Image();
                 var pacImageD = new Image();
-
                 //checks what was the last move's direction. adds the correct image
                 if (pacDirection == 4) {
                     pacImageR.src = 'pacmanR.jpg';
@@ -252,7 +242,6 @@ function Draw() {
                     pacImageD.src = 'pacmanD.jpg';
                     context.drawImage(pacImageD, center.x - 23, center.y - 20, 45, 45);
                 }
-
             } else if (board[i][j] == 4) { //walls
                 context.beginPath();
                 context.rect(center.x - 30, center.y - 30, 60, 60);
@@ -273,85 +262,69 @@ function Draw() {
                 context.arc(center.x, center.y, 20, 0, 2 * Math.PI); // circle
                 context.fillStyle = twenty_five_point_color_value; //color
                 context.fill();
-
             } else if (board[i][j] == 8) { // a clock
                 var clockImg = new Image();
                 clockImg.src = 'clock.png';
                 context.drawImage(clockImg, i * 60 + 7, j * 60 + 10, 40, 45);
             }
-
             if (!eatCandy) {
                 var candy50 = new Image();
                 candy50.src = 'candy50.png';
                 context.drawImage(candy50, specialBall.i * 60 + 7, specialBall.j * 60 + 10, 45, 45);
             }
-            // context = canvas.getContext('2d');
-            // var monsterRED = new Image();
-            // monsterRED.src = 'monsterRED.jpg';
-            // context.drawImage(monsterRED, monsterRED_X * 60 + 7, monsterRED_Y * 60 + 10, 45, 45);
         }
     }
 
     //draws all monsters in the game:
     context = canvas.getContext('2d');
-
-    if(monsterRED_X != -1){ //means this monster exists in the game.
+    if (monsterRED_X != -1) { //means this monster exists in the game.
         var monsterRED = new Image();
         monsterRED.src = 'monsterRED.jpg';
         context.drawImage(monsterRED, monsterRED_X * 60 + 7, monsterRED_Y * 60 + 10, 45, 45);
     }
-    if(monsterBLUE_X != -1){
+    if (monsterBLUE_X != -1) {
         var monsterBLUE = new Image();
         monsterBLUE.src = 'monsterBLUE.jpg';
         context.drawImage(monsterBLUE, monsterBLUE_X * 60 + 7, monsterBLUE_Y * 60 + 10, 45, 45);
     }
-    if(monsterGREEN_X != -1){
+    if (monsterGREEN_X != -1) {
         var monsterGREEN = new Image();
         monsterGREEN.src = 'monsterGREEN.jpg';
         context.drawImage(monsterGREEN, monsterGREEN_X * 60 + 7, monsterGREEN_Y * 60 + 10, 45, 45);
     }
-    if(monsterYELLOW_X != -1){
+    if (monsterYELLOW_X != -1) {
         var monsterYELLOW = new Image();
         monsterYELLOW.src = 'monsterYELLOW.jpg';
         context.drawImage(monsterYELLOW, monsterYELLOW_X * 60 + 7, monsterYELLOW_Y * 60 + 10, 45, 45);
+    }
+    if (!isAnyCandyLeft()) {
+        finishGame();
     }
 }
 
 function UpdatePosition() {
     board[shape.i][shape.j] = 0;
     var x = GetKeyPressed();
-    var whichSide = "";
-
     if (x == 1) {
         if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
             shape.j--;
-            whichSide = "left";
         }
     }
-
-
     if (x == 2) {
         if (shape.j < 11 && board[shape.i][shape.j + 1] != 4) {
             shape.j++;
-            whichSide = "right";
         }
     }
-
-
     if (x == 3) {
         if (shape.i > 0 && board[shape.i - 1][shape.j] != 4) {
             shape.i--;
-            whichSide = "up";
         }
     }
-
     if (x == 4) {
         if (shape.i < 11 && board[shape.i + 1][shape.j] != 4) {
             shape.i++;
-            whichSide = "down";
         }
     }
-
     if (board[shape.i][shape.j] == 1) {
         score = score + 5;
     } else if (board[shape.i][shape.j] == 5) {
@@ -364,52 +337,62 @@ function UpdatePosition() {
         score = score + 50;
         window.clearInterval(specialBallInterval);
         eatCandy = true;
-    } else if (board[shape.i][shape.j] == 8){
+    } else if (board[shape.i][shape.j] == 8) {
         game_time_value = parseInt(game_time_value) + 40; //adds bonus time
-       // document.getElementById("timeForGame").value = game_time_value; //update the table display also.
         document.getElementById("gameTime").innerHTML = game_time_value; //update the table display also.
         board[shape.i][shape.j] == 0; // there is no clock any longer.
+        window.clearInterval(gameIsOnInterval);
+        let realTimeIs = new Date();
+        let passedTime = (realTimeIs - start_time) / 1000; // seconds
+        let leftTimeToPlay = (game_time_value - passedTime) * 1000;
+        gameIsOnInterval = setInterval(finishGame, parseInt(leftTimeToPlay));
         Draw();
     } else if (shape.i == monsterRED_X && shape.j == monsterRED_Y) { //got eaten by a monster
         startNewRound();
         Draw();
     }
-
     board[shape.i][shape.j] = 2;
     var currentTime = new Date();
     time_elapsed = (currentTime - start_time) / 1000;
-    // if (score >= 20 && time_elapsed <= 10) {
-    //     pac_color = "green";
-    // }
-    let winningScore = numberOfBalls_value * 0.6 * 5 + numberOfBalls_value * 0.3 * 15 + numberOfBalls_value * 0.1 * 25;
-    if (score == winningScore) {
+    // losing, still have more time to play,and more candies to eat, but life is over. 
+    if (life == 0) {
         window.clearInterval(interval);
+        window.clearInterval(gameIsOnInterval);
         window.clearInterval(specialBallInterval);
-        window.alert("Game completed");
+        window.clearInterval(monstersInterval);
         stopMusic();
-        document.getElementById("newGame").style.display = "block";
-    } else if (life == 0) {
-        window.clearInterval(interval);
-        window.clearInterval(specialBallInterval);
         window.alert("Loser!");
-        stopMusic();
         document.getElementById("newGame").style.display = "block";
-        //finishGame();
     } else {
         Draw();
     }
+}
+
+function isAnyCandyLeft() {
+    if (!eatCandy) {
+        return true;
+    }
+    for (var i = 0; i < 12; i++) {
+        for (var j = 0; j < 12; j++) {
+            if (board[i][j] == 1 || board[i][j] == 5 || board[i][j] == 6) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 function finishGame() {
     window.clearInterval(interval);
     window.clearInterval(gameIsOnInterval);
     window.clearInterval(specialBallInterval);
+    window.clearInterval(monstersInterval);
+    stopMusic();
     if (score < 100) {
         window.alert("You are better than " + score + " points!")
     } else {
         window.alert("Winner!!!")
     }
-    stopMusic();
     document.getElementById("newGame").style.display = "block";
 }
 // shows the choosen page 
@@ -492,6 +475,8 @@ function showGame() {
     document.getElementById("register").style.display = "none";
     document.getElementById("welcome").style.display = "none";
     document.getElementById("totalGame").style.display = "block";
+    document.getElementById("totalGame").style.textAlign = "center";
+
     settingsWithGame();
     context = canvas.getContext("2d");
     Start();
@@ -515,8 +500,6 @@ function settingsWithGame() {
 $(document).ready(function() {
     allUsers = new Array;
     var defultUser = { username: "p", password: "p" }
-        //var allUsers = [defultUser];
-        //allUsers[0] = defultUser;
     allUsers.push(defultUser);
 });
 
@@ -580,7 +563,7 @@ function moveMonsters() { //only update their locations.
             monsterBLUE_Y--;
         if ((monsterGREEN_X != -1) && (monsterGREEN_Y - 1 >= 0) && (board[monsterGREEN_X][monsterGREEN_Y - 1] != 4)) // not a wall.
             monsterGREEN_Y--;
-        
+
     } else if (pacDirection == 2) { //down
         if ((monsterRED_X != -1) && (monsterRED_Y + 1 < 12) && (board[monsterRED_X][monsterRED_Y + 1] != 4)) // not a wall.
             monsterRED_Y++;
@@ -590,8 +573,8 @@ function moveMonsters() { //only update their locations.
             monsterBLUE_Y++;
         if ((monsterGREEN_X != -1) && (monsterGREEN_Y + 1 < 12) && (board[monsterGREEN_X][monsterGREEN_Y + 1] != 4)) // not a wall.
             monsterGREEN_Y++;
-        
-    
+
+
     } else if (pacDirection == 3) { //left
         if ((monsterRED_X != -1) && (monsterRED_X - 1 >= 0) && (board[monsterRED_X - 1][monsterRED_Y] != 4)) // not a wall.
             monsterRED_X--;
@@ -601,9 +584,9 @@ function moveMonsters() { //only update their locations.
             monsterBLUE_X--;
         if ((monsterGREEN_X != -1) && (monsterGREEN_X - 1 >= 0) && (board[monsterGREEN_X - 1][monsterGREEN_Y] != 4)) // not a wall.
             monsterGREEN_X--;
-        
+
     } else if (pacDirection == 4) { //right
-        if ((monsterRED_X != -1) && (monsterRED_X + 1 < 12) && (board[monsterRED_X + 1][monsterRED_Y] != 4))// not a wall.
+        if ((monsterRED_X != -1) && (monsterRED_X + 1 < 12) && (board[monsterRED_X + 1][monsterRED_Y] != 4)) // not a wall.
             monsterRED_X++;
         if ((monsterYELLOW_X != -1) && (monsterYELLOW_X + 1 < 12) && (board[monsterYELLOW_X + 1][monsterYELLOW_Y] != 4)) // not a wall.
             monsterYELLOW_X++;
@@ -611,38 +594,34 @@ function moveMonsters() { //only update their locations.
             monsterBLUE_X++;
         if ((monsterGREEN_X != -1) && (monsterGREEN_X + 1 < 12) && (board[monsterGREEN_X + 1][monsterGREEN_Y] != 4)) // not a wall.
             monsterGREEN_X++;
-        
+
     }
 
-    if ( ((monsterRED_X != -1) && (board[monsterRED_X][monsterRED_Y] == 2)) ||
-    ((monsterRED_X != -1) && (board[monsterGREEN_X][monsterGREEN_Y] == 2)) || 
-    ((monsterBLUE_X != -1 ) && (board[monsterBLUE_X][monsterBLUE_Y] == 2)) ||
-    ((monsterYELLOW_X != -1) && (board[monsterYELLOW_X][monsterYELLOW_Y] == 2 ))){ //its a pacman
-        pacmanFailMusic();
+    if (((monsterRED_X != -1) && (board[monsterRED_X][monsterRED_Y] == 2)) ||
+        ((monsterGREEN_X != -1) && (board[monsterGREEN_X][monsterGREEN_Y] == 2)) ||
+        ((monsterBLUE_X != -1) && (board[monsterBLUE_X][monsterBLUE_Y] == 2)) ||
+        ((monsterYELLOW_X != -1) && (board[monsterYELLOW_X][monsterYELLOW_Y] == 2))) { //its a pacman
         startNewRound();
+        pacmanFailMusic();
         Draw();
     }
 }
 
 
 function startNewRound() {
-
     board[shape.i][shape.j] = 0;
-    //board[i][j] = 0
-
     score = score - 10; //these are the rules.
     life--;
     var emptyCell = findRandomEmptyCell(board); //new start point for the next round.
     board[emptyCell[0]][emptyCell[1]] = 2; //put pacman. 
     shape.i = emptyCell[0];
     shape.j = emptyCell[1];
-
     startMonstersFromEnds();
     Draw();
 }
 
-function startMonstersFromEnds(){ //by number of monsters chosen.
-    if (number_of_monsters_value >= 1){
+function startMonstersFromEnds() { //by number of monsters chosen.
+    if (number_of_monsters_value >= 1) {
         monsterRED_X = 0;
         monsterRED_Y = 0;
 
@@ -658,11 +637,13 @@ function startMonstersFromEnds(){ //by number of monsters chosen.
         monsterGREEN_X = 11;
         monsterGREEN_Y = 11;
 
-    } if (number_of_monsters_value >= 3) {
+    }
+    if (number_of_monsters_value >= 3) {
         monsterYELLOW_X = 0;
         monsterYELLOW_Y = 11;
 
-    } if (number_of_monsters_value == 4) {
+    }
+    if (number_of_monsters_value == 4) {
         monsterBLUE_X = 10;
         monsterBLUE_Y = 0;
     }
@@ -754,4 +735,161 @@ function moveRandomSpeicalBall() {
     if (specialBall.i == specialTemp.i && specialTemp.j == specialBall.j) { // if after all the candy didnt move
         moveSpeicalBall();
     }
+}
+
+function moveMonsters2() {
+    var r = Math.floor(Math.random() * 10);
+    if (r < 7) {
+        hardMove();
+    } else {
+        moveMonsters();
+    }
+    if (((monsterRED_X != -1) && (board[monsterRED_X][monsterRED_Y] == 2)) ||
+        ((monsterGREEN_X != -1) && (board[monsterGREEN_X][monsterGREEN_Y] == 2)) ||
+        ((monsterBLUE_X != -1) && (board[monsterBLUE_X][monsterBLUE_Y] == 2)) ||
+        ((monsterYELLOW_X != -1) && (board[monsterYELLOW_X][monsterYELLOW_Y] == 2))) { //its a pacman
+        pacmanFailMusic();
+        startNewRound();
+        Draw();
+    }
+}
+
+function hardMove() {
+    let d1 = 0,
+        d2 = 0,
+        d3 = 0,
+        d4 = 0;
+    if (monsterRED_X != -1) { // the red monster exist
+        if ((monsterRED_Y - 1 >= 0) && (board[monsterRED_X][monsterRED_Y - 1] != 4)) {
+            let x = parseInt(shape.i) - parseInt(monsterRED_X);
+            let y = parseInt(shape.j) - parseInt(monsterRED_Y) - 1;
+            d1 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        }
+        if ((monsterRED_Y + 1 < 12) && (board[monsterRED_X][monsterRED_Y + 1] != 4)) {
+            let x = parseInt(shape.i) - parseInt(monsterRED_X);
+            let y = parseInt(shape.j) - parseInt(monsterRED_Y) + 1;
+            d2 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        }
+        if ((monsterRED_X - 1 >= 0) && (board[monsterRED_X - 1][monsterRED_Y] != 4)) {
+            let x = parseInt(shape.i) - parseInt(monsterRED_X) - 1;
+            let y = parseInt(shape.j) - parseInt(monsterRED_Y);
+            d3 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        }
+        if ((monsterRED_X + 1 < 12) && (board[monsterRED_X + 1][monsterRED_Y] != 4)) {
+            let x = parseInt(shape.i) - parseInt(monsterRED_X) + 1;
+            let y = parseInt(shape.j) - parseInt(monsterRED_Y);
+            d4 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        }
+        if (Math.max(d1, d2, d3, d4) == d1) {
+            monsterRED_Y--;
+        } else if (Math.max(d1, d2, d3, d4) == d2) {
+            monsterRED_Y++;
+        } else if (Math.max(d1, d2, d3, d4) == d3) {
+            monsterRED_X--;
+        } else if (Math.max(d1, d2, d3, d4) == d4) {
+            monsterRED_X++;
+        }
+    }
+
+    d1 = 0, d2 = 0, d3 = 0, d4 = 0;
+
+    if (monsterYELLOW_X != -1) { // the yellow monster exist
+        if ((monsterYELLOW_Y - 1 >= 0) && (board[monsterYELLOW_X][monsterYELLOW_Y - 1] != 4)) {
+            let x = parseInt(shape.i) - parseInt(monsterYELLOW_X);
+            let y = parseInt(shape.j) - parseInt(monsterYELLOW_Y) - 1;
+            d1 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        }
+        if ((monsterYELLOW_Y + 1 < 12) && (board[monsterYELLOW_X][monsterYELLOW_Y + 1] != 4)) {
+            let x = parseInt(shape.i) - parseInt(monsterYELLOW_X);
+            let y = parseInt(shape.j) - parseInt(monsterYELLOW_Y) + 1;
+            d2 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        }
+        if ((monsterYELLOW_X - 1 >= 0) && (board[monsterYELLOW_X - 1][monsterYELLOW_Y] != 4)) {
+            let x = parseInt(shape.i) - parseInt(monsterYELLOW_X) - 1;
+            let y = parseInt(shape.j) - parseInt(monsterYELLOW_Y);
+            d3 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        }
+        if ((monsterYELLOW_X + 1 < 12) && (board[monsterYELLOW_X + 1][monsterYELLOW_Y] != 4)) {
+            let x = parseInt(shape.i) - parseInt(monsterYELLOW_X) + 1;
+            let y = parseInt(shape.j) - parseInt(monsterYELLOW_Y);
+            d4 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        }
+        if (Math.max(d1, d2, d3, d4) == d1) {
+            monsterYELLOW_Y--;
+        } else if (Math.max(d1, d2, d3, d4) == d2) {
+            monsterYELLOW_Y++;
+        } else if (Math.max(d1, d2, d3, d4) == d3) {
+            monsterYELLOW_X--;
+        } else if (Math.max(d1, d2, d3, d4) == d4) {
+            monsterYELLOW_X++;
+        }
+    }
+    d1 = 0, d2 = 0, d3 = 0, d4 = 0;
+
+
+    if (monsterBLUE_X != -1) { // the blue monster exist
+        if ((monsterBLUE_Y - 1 >= 0) && (board[monsterBLUE_X][monsterBLUE_Y - 1] != 4)) {
+            let x = parseInt(shape.i) - parseInt(monsterBLUE_X);
+            let y = parseInt(shape.j) - parseInt(monsterBLUE_Y) - 1;
+            d1 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        }
+        if ((monsterBLUE_Y + 1 < 12) && (board[monsterBLUE_X][monsterBLUE_Y + 1] != 4)) {
+            let x = parseInt(shape.i) - parseInt(monsterBLUE_X);
+            let y = parseInt(shape.j) - parseInt(monsterBLUE_Y) + 1;
+            d2 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        }
+        if ((monsterBLUE_X - 1 >= 0) && (board[monsterBLUE_X - 1][monsterBLUE_Y] != 4)) {
+            let x = parseInt(shape.i) - parseInt(monsterBLUE_X) - 1;
+            let y = parseInt(shape.j) - parseInt(monsterBLUE_Y);
+            d3 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        }
+        if ((monsterBLUE_X + 1 < 12) && (board[monsterBLUE_X + 1][monsterBLUE_Y] != 4)) {
+            let x = parseInt(shape.i) - parseInt(monsterBLUE_X) + 1;
+            let y = parseInt(shape.j) - parseInt(monsterBLUE_Y);
+            d4 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        }
+        if (Math.max(d1, d2, d3, d4) == d1) {
+            monsterBLUE_Y--;
+        } else if (Math.max(d1, d2, d3, d4) == d2) {
+            monsterBLUE_Y++;
+        } else if (Math.max(d1, d2, d3, d4) == d3) {
+            monsterBLUE_X--;
+        } else if (Math.max(d1, d2, d3, d4) == d4) {
+            monsterBLUE_X++;
+        }
+    }
+    d1 = 0, d2 = 0, d3 = 0, d4 = 0;
+
+    if (monsterGREEN_X != -1) { // the green monster exist
+        if ((monsterGREEN_Y - 1 >= 0) && (board[monsterGREEN_X][monsterGREEN_Y - 1] != 4)) {
+            let x = parseInt(shape.i) - parseInt(monsterGREEN_X);
+            let y = parseInt(shape.j) - parseInt(monsterGREEN_Y) - 1;
+            d1 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        }
+        if ((monsterGREEN_Y + 1 < 12) && (board[monsterGREEN_X][monsterGREEN_Y + 1] != 4)) {
+            let x = parseInt(shape.i) - parseInt(monsterGREEN_X);
+            let y = parseInt(shape.j) - parseInt(monsterGREEN_Y) + 1;
+            d2 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        }
+        if ((monsterGREEN_X - 1 >= 0) && (board[monsterGREEN_X - 1][monsterGREEN_Y] != 4)) {
+            let x = parseInt(shape.i) - parseInt(monsterGREEN_X) - 1;
+            let y = parseInt(shape.j) - parseInt(monsterGREEN_Y);
+            d3 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        }
+        if ((monsterGREEN_X + 1 < 12) && (board[monsterGREEN_X + 1][monsterGREEN_Y] != 4)) {
+            let x = parseInt(shape.i) - parseInt(monsterGREEN_X) + 1;
+            let y = parseInt(shape.j) - parseInt(monsterGREEN_Y);
+            d4 = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        }
+        if (Math.max(d1, d2, d3, d4) == d1) {
+            monsterGREEN_Y--;
+        } else if (Math.max(d1, d2, d3, d4) == d2) {
+            monsterGREEN_Y++;
+        } else if (Math.max(d1, d2, d3, d4) == d3) {
+            monsterGREEN_X--;
+        } else if (Math.max(d1, d2, d3, d4) == d4) {
+            monsterGREEN_X++;
+        }
+    }
+
 }
