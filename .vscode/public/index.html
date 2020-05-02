@@ -14,22 +14,22 @@
 
 <body>
     <div>
-        <img src="logo2.png"></img>
         <div id="header">
-            <div id="menu">
-                <ul>
-                    <li><a href="#welcome" onclick="showWelcome()">Welcome</a></li>
-                    <li><a href="#register" onclick="showRegister()">Register</a></li>
-                    <li><a href="#login" onclick="showLogin()">Login</a></li>
-                    <li><a href="#settings" onclick="showSettings()">Game Settings</a></li>
-                    <li><a id="about">About</a></li>
-                </ul>
-            </div>
+            <pppp> Packman T&T </pppp>
+            <p> Made by Tair Cohen and Tali Schvartz</p>
+            <img src="logo2.png"></img>
+        </div>
+        <div id="menu">
+            <ul>
+                <li><a href="#welcome" onclick="showWelcome()">Welcome</a></li>
+                <li><a href="#register" onclick="showRegister()">Register</a></li>
+                <li><a href="#login" onclick="showLogin()">Login</a></li>
+                <!-- <li><a href="#settings" onclick="showSettings()">Game Settings</a></li> -->
+                <li><a id="about">About</a></li>
+            </ul>
         </div>
         <div id="content">
             <section id="welcome">
-                <br />
-                <br />
                 <br />
                 <p>Welcome to the Pacman Game! &#128516; Please Login or register for playing.
                     <br /> First, you will have to choose your game settings in order to play.
@@ -40,16 +40,13 @@
                     <br />
                     <br />
                 </p>
-                    <button class="btn register" href="#a" onclick="showRegister()">Register</button>
-                    <br />
-                    <br />
-                    <button class="btn login" href="#a" onclick="showLogin()">Login</button>
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
-                    <br />
+                <button class="btn register" href="#a" onclick="showRegister()">Register</button>
+                <br />
+                <br />
+                <button class="btn login" href="#a" onclick="showLogin()">Login</button>
+                <br />
+                <br />
+                <br />
             </section>
 
             <section id="register" name="register" style="display:none;">
@@ -59,8 +56,7 @@
                         <br/>
                         <div class="panel panel-primary">
                             <div class="registerTitle">
-                                <br/>
-                                Registration 
+                                <br/> Registration
                                 <br/>
                                 <br/>
                             </div>
@@ -88,9 +84,6 @@
                                 </form>
                             </div>
                         </div>
-                        <br />
-                        <br />
-                        <br />
                     </div>
                 </div>
             </section>
@@ -99,7 +92,7 @@
                     <form class="form" method="post" action="#">
                         <br />
                         <br />
-                        <ppp>Please log in to your account</ppp>
+                        <ppp>Please login into your account</ppp>
                         <br />
                         <br />
                         <br />
@@ -113,10 +106,6 @@
                         <br />
                         <br />
                         <input class="btn submitRegister" type="button" name="loginbutton" id="loginbutton" value="login">
-                        <br />
-                        <br />
-                        <br />
-                        <br />
                     </form>
                 </section>
             </div>
@@ -128,9 +117,11 @@
                     <div class="modal-content">
                         <span class="close">&times;</span>
                         <p>The creators of the game:Tair Cohen and Tali Schvartz
-                            <br /> The jQuery Plugin that we have used are:
-                            <br /> The Template that we have used are:
-                            <br /> The difficulties we encountered in the exercise are:
+                            <br /> The jQuery Plugin that we have used was the </br>
+                            jQuery-validation for register form to validate the details that the user is submiting.
+                            <br /> We didnt use any templates.
+                            <br /> The difficulties we encountered in the exercise was to figure out the
+                            <br /> syntax of javascript and jquery since its new for us.
                         </p>
                     </div>
                 </div>
@@ -269,21 +260,21 @@
                 <br>
                 <br>
                 <button class="btn" id="down" onclick="downFunction()">Choose Down Key</button>
-                <br>  
                 <br>
-                
+                <br>
+
                 <pp> Please enter the number of balls: (max:90 , min:50)</pp>
                 <input id="numberOfBalls" type="text" value="50" name="numberOfBalls"><br>
-                <pp>  Please enter the color for five point ball:</pp>
+                <pp> Please enter the color for five point ball:</pp>
                 <input id="fivePointBallColor" type="color" value="#0000FF" name="fivePointBall"><br>
                 <pp> Please enter the color for fifth teen point ball:</pp>
                 <input id="fifthTeenPointBallColor" type="color" value="#40E0D0" name="fifthTeenPointBall"><br>
-                <pp>  Please enter the color for twenty five point ball:</pp>
+                <pp> Please enter the color for twenty five point ball:</pp>
                 <input id="twentyFivePointBallColor" type="color" value="#ff0080" name="twentyFivePointBall"><br>
-                <pp>  Please enter the time in seconds for the game: (min:60 seconds)</pp>
+                <pp> Please enter the time in seconds for the game: (min:60 seconds)</pp>
                 <input id="timeForGame" type="text" value="60" name="timeForGame"><br>
-                <pp>  Please enter the number of monsters for the game: (min:1 , max:4)</pp>
-                
+                <pp> Please enter the number of monsters for the game: (min:1 , max:4)</pp>
+
                 <input id="numberOfMonsters" type="text" value="1" name="numberOfMonsters"><br>
                 <br>
                 <br>
@@ -300,13 +291,18 @@
         <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="register.js"></script>
-
         <!-- <img id="pacmanD" src="pacmanD.jpg"  width="100" height="100">
         <img id="pacmanU" src="pacmanU.jpg"  width="100" height="100">
         <img id="pacmanR" src="pacmanR.jpg"  width="100" height="100"> -->
         <!-- <img id="pacmanL" src="pacmanL.jpg"  width="100" height="100"> -->
 
-
+        <div id="footer">
+            <footer>
+                <p>This website present a classic pacman game.</p>
+                <p>Contact information: <a href="mailto:taircohen94@gmail.com">
+                    taircohen94@gmail.com</a>.</p>
+            </footer>
+        </div>
 </body>
 <script>
     // Get the modal
