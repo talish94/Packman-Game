@@ -64,7 +64,7 @@ function Start() {
     let five_remain = food_remain * 0.6;
     let fifthTeen_remain = food_remain * 0.3;
     let twentyFive_remain = food_remain * 0.1;
-    document.getElementById("menu").addEventListener("click", stopMusic);
+    document.getElementById("menu").addEventListener("click", clickOnMenu);
     var pacman_remain = 1;
     start_time = new Date();
     gameIsOnInterval = setInterval(finishGame, parseInt(game_time_value) * 1000);
@@ -176,16 +176,16 @@ function Start() {
         },
         false
     );
-    interval = setInterval(UpdatePosition, 120);
-    startMusic();
-    musicInterval = setInterval(startMusic, 60000);
-    // monstersInterval = setInterval(moveMonsters, 700);
-
-    //monstersInterval = setInterval(moveMonsters2, 700);
-
-    //specialBallInterval = setInterval(moveSpeicalBall, 700);
     var clockPlace = findRandomEmptyCell(board);
     board[clockPlace[0]][clockPlace[1]] = 8;
+    interval = setInterval(UpdatePosition, 150);
+    startMusic();
+    musicInterval = setInterval(startMusic, 60000);
+
+    // monstersInterval = setInterval(moveMonsters, 700);
+    //monstersInterval = setInterval(moveMonsters2, 700);
+    //specialBallInterval = setInterval(moveSpeicalBall, 700);
+
 }
 
 function findRandomEmptyCell(board) {
@@ -272,7 +272,7 @@ function Draw() {
                 var clockImg = new Image();
                 clockImg.src = 'clock.png';
                 context.drawImage(clockImg, i * 60 + 7, j * 60 + 10, 40, 45);
-            
+
             } else if (board[i][j] == 9) { // a heart
                 var heartImg = new Image();
                 heartImg.src = 'heart.jpg';
@@ -370,14 +370,20 @@ function UpdatePosition() {
         board[shape.i][shape.j] = 0; //no more hearts.
 
     } else if ((shape.i == monsterRED_X && shape.j == monsterRED_Y) || (shape.i == monsterYELLOW_X && shape.j == monsterYELLOW_Y) ||
-    (shape.i == monsterBLUE_X && shape.j == monsterBLUE_Y) || (shape.i == monsterGREEN_X && shape.j == monsterGREEN_Y)){ //got eaten by any monster
+        (shape.i == monsterBLUE_X && shape.j == monsterBLUE_Y) || (shape.i == monsterGREEN_X && shape.j == monsterGREEN_Y)) { //got eaten by any monster
         startNewRound();
         //Draw();
     }
     board[shape.i][shape.j] = 2;
     var currentTime = new Date();
     time_elapsed = (currentTime - start_time) / 1000;
-
+    if (updateMonstersInterval == 5) {
+        moveMonsters2();
+        if (!eatCandy) {
+            moveSpeicalBall();
+        }
+        updateMonstersInterval = 0;
+    }
     // losing, still have more time to play,and more candies to eat, but life is over. 
     if (life == 0) {
         window.clearInterval(interval);
@@ -386,17 +392,13 @@ function UpdatePosition() {
         //window.clearInterval(monstersInterval);
         stopMusic();
         window.alert("Loser!");
+        lblLife.value = 0;
         document.getElementById("newGame").style.display = "block";
-
     } else {
         Draw();
     }
 
-    if (updateMonstersInterval == 8){
-        moveMonsters2();
-        moveSpeicalBall();
-        updateMonstersInterval = 0;
-    }
+
 }
 
 function isAnyCandyLeft() {
@@ -641,7 +643,7 @@ function moveMonsters() { //only update their locations.
 
 function startNewRound() {
     numOfRound++;
-    updateMonstersInterval = 0 ;
+    updateMonstersInterval = 0;
     board[shape.i][shape.j] = 0;
     score = score - 10; //these are the rules.
     life--;
@@ -651,8 +653,8 @@ function startNewRound() {
     shape.j = emptyCell[1];
     startMonstersFromEnds();
 
-    if(numOfRound == 3){
-        var emptyCellForHeart = findRandomEmptyCell(board); 
+    if (numOfRound == 3) {
+        var emptyCellForHeart = findRandomEmptyCell(board);
         board[emptyCellForHeart[0]][emptyCellForHeart[1]] = 9; //put heart. 
     }
 }
@@ -929,4 +931,10 @@ function hardMove() {
         }
     }
 
+}
+
+function clickOnMenu() {
+    window.clearInterval(interval);
+    window.clearInterval(gameIsOnInterval);
+    stopMusic();
 }
