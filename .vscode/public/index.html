@@ -28,28 +28,40 @@
         </div>
         <div id="content">
             <section id="welcome">
-                <h1>Welcome to the Pacman Game! &#128516; Please Login or register for playing!
-                    <br /> First, you will have to choose your play settings in oreder to play.
-                    <br /> Be careful from the monsters around you...
-                    <br /> Try to eat as many points as you can!
-                    <br />
-                </h1>
-                <button href="#a" onclick="showRegister()">Register</button>
                 <br />
-                <button href="#a" onclick="showLogin()">Login</button>
-
-
+                <p>Welcome to the Pacman Game! &#128516; Please Login or register for playing.
+                    <br /> First, you will have to choose your game settings in order to play.
+                    <br /> Be careful from the monsters around you ... and try to eat as many points as you can!
+                    <br /> The clock will give you an extra time for the game,
+                    <br /> and the heart will give you an extra life :)
+                    <br /> Good luck !
+                    <br />
+                    <br />
+                </p>
+                    <button class="btn register" href="#a" onclick="showRegister()">Register</button>
+                    <br />
+                    <br />
+                    <button class="btn login" href="#a" onclick="showLogin()">Login</button>
+                    <br />
+                    <br />
+                    <br />
             </section>
 
             <section id="register" name="register" style="display:none;">
                 <div class="container">
                     <div class="col-md-6 col-md-offset-3">
+                        <br/>
+                        <br/>
                         <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                Registration
+                            <div class="registerTitle">
+                                <br/>
+                                Registration 
+                                <br/>
+                                <br/>
                             </div>
                             <div class="panel-body">
                                 <form id="registration">
+                                    <br/>
                                     <input type="text" class="form-control" name="username" placeholder="Username" id="username" />
                                     <br/>
                                     <input type="password" class="form-control" name="password" placeholder="Password" id="password" />
@@ -65,8 +77,9 @@
                                     <input type="date" class="form-control" name="date" placeholder="Birthdate" id="date" />
                                     <br/>
                                     <br/>
+                                    <button class="btn submitRegister" id="submitbutton" class="btn btn-primary">Submit</button>
                                     <br/>
-                                    <button id="submitbutton" class="btn btn-primary">Submit</button>
+                                    <br/>
                                 </form>
                             </div>
                         </div>
@@ -76,12 +89,22 @@
             <div id="content">
                 <section id="login" style="display:none;">
                     <form class="form" method="post" action="#">
-                        <h2>Please log in to your account</h2>
-                        <label>UserName :</label>
+                        <br />
+                        <br />
+                        <ppp>Please log in to your account</ppp>
+                        <br />
+                        <br />
+                        <br />
+                        <pp>UserName :</pp>
                         <input type="t" name="usernameLogin" id="usernameLogin">
-                        <label>Password :</label>
+                        <br />
+                        <br />
+                        <pp>Password :</pp>
                         <input type="p" name="passwordLogin" id="passwordLogin">
-                        <input type="button" name="loginbutton" id="loginbutton" value="login">
+                        <br />
+                        <br />
+                        <br />
+                        <input class="btn submitRegister" type="button" name="loginbutton" id="loginbutton" value="login">
                     </form>
                 </section>
             </div>
@@ -217,30 +240,48 @@
                 </div>
             </section>
             <section id="settings" style="display:none;">
-                <h1>Settings For Playing:</h1>
-                <p>Please enter the keys you want to play with:</p>
-                <button id="left" value="" onclick="leftFunction()">Choose Left Key</button>
                 <br>
-                <button id="right" onclick="rightFunction()">Choose Right Key</button>
+                <pppp>Settings For Playing:</pppp>
                 <br>
-                <button id="up" onclick="upFunction()">Choose Up Key</button>
                 <br>
-                <button id="down" onclick="downFunction()">Choose Down Key</button>
+                <ppp>Please enter the keys you want to play with:</ppp>
                 <br>
-                <label>Please enter the number of balls: (max:90 , min:50)</label>
+                <br>
+                <button class="btn" id="left" value="" onclick="leftFunction()">Choose Left Key</button>
+                <br>
+                <br>
+                <button class="btn" id="right" onclick="rightFunction()">Choose Right Key</button>
+                <br>
+                <br>
+                <button class="btn" id="up" onclick="upFunction()">Choose Up Key</button>
+                <br>
+                <br>
+                <button class="btn" id="down" onclick="downFunction()">Choose Down Key</button>
+                <br>  
+                <br>
+                
+                <pp> Please enter the number of balls: (max:90 , min:50)</pp>
                 <input id="numberOfBalls" type="text" value="50" name="numberOfBalls"><br>
-                <label>Please enter the color for five point ball:</label>
+                <pp>  Please enter the color for five point ball:</pp>
                 <input id="fivePointBallColor" type="color" value="#0000FF" name="fivePointBall"><br>
-                <label>Please enter the color for fifth teen point ball:</label>
+                <pp> Please enter the color for fifth teen point ball:</pp>
                 <input id="fifthTeenPointBallColor" type="color" value="#40E0D0" name="fifthTeenPointBall"><br>
-                <label>Please enter the color for twenty five point ball:</label>
+                <pp>  Please enter the color for twenty five point ball:</pp>
                 <input id="twentyFivePointBallColor" type="color" value="#ff0080" name="twentyFivePointBall"><br>
-                <label>Please enter the time in seconds for the game: (min:60 seconds)</label>
+                <pp>  Please enter the time in seconds for the game: (min:60 seconds)</pp>
                 <input id="timeForGame" type="text" value="60" name="timeForGame"><br>
-                <label>Please enter the number of monsters for the game: (min:1 , max:4)</label>
+                <pp>  Please enter the number of monsters for the game: (min:1 , max:4)</pp>
+                
                 <input id="numberOfMonsters" type="text" value="1" name="numberOfMonsters"><br>
-                <button id=randomSettings onclick="randomSettings()"> Choose Random Settings</button><br />
-                <button id="start" onclick="showGame()">Start Game</button>
+                <br>
+                <br>
+                <button class="btn" id=randomSettings onclick="randomSettings()"> Choose Random Settings</button><br />
+                <br>
+                <button class="btn" id="start" onclick="showGame()">Start Game</button>
+                <br>
+                <br>
+                <br>
+
             </section>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
