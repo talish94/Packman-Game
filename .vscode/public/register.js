@@ -1,13 +1,12 @@
 $.validator.setDefaults({
     submitHandler: function() {
-        alert("submitted!");
+        saveRegisterForm();
+        //alert("submitted!");
     }
 });
 
-$().ready(function() {
 
-    var users = [];
-    users.push({ username: "p", password: "p" }); //default one.
+$().ready(function() {
    
 jQuery.validator.addMethod("notNumber", function(value, element, param) {
     var reg = /[0-9]/;
@@ -107,3 +106,44 @@ if ($registrationForm.length) {
     });
 }
 });
+
+function saveRegisterForm() {
+
+	var userName = document.getElementById("username").value;
+	var passWord = document.getElementById("password").value;
+
+	// var firstname=document.getElementById("firstname").value;
+	// var lastname=document.getElementById("lastname").value;
+	// var email=document.getElementById("user_email").value;
+	// var birthday=document.getElementById("birthday").value;
+	// var date=birthday.split("-");
+	// var day=date[2];
+	// var month=date[1];
+	// var year=date[0];
+
+	//addedSuccess = addUserToArray(userName, password);
+
+	if (isUserameExists(userName)){ // username already exists in the system
+		window.alert("user name already exist. Please pick a new one and try again.");
+		return;
+	}
+	else { 
+		var newPerson = { username: userName, password: passWord };
+		allUsers.push(newPerson);
+		window.alert("User added successfully! Please log in now to play the game.");
+		showLogin();
+		return;
+	}        
+}
+
+
+function isUserameExists (userName){
+    var size = allUsers.length;
+    for(i=0; i < size; i++){
+
+        if (allUsers[i].username == userName ) {
+            return true;
+        }
+    }
+    return false;
+}
