@@ -42,7 +42,17 @@ var updateMonstersInterval;
 var heart_X;
 var heart_Y;
 var numOfRound;
-
+var pacImageR = new Image();
+var pacImageL = new Image();
+var pacImageU = new Image();
+var pacImageD = new Image();
+var clockImg = new Image();
+var heartImg = new Image();
+var candy50 = new Image();
+var monsterRED = new Image();
+var monsterBLUE = new Image();
+var monsterGREEN = new Image();
+var monsterYELLOW = new Image();
 
 function Start() {
     board = new Array();
@@ -176,6 +186,18 @@ function Start() {
         },
         false
     );
+    // imgs:
+    pacImageR.src = 'pacmanR.jpg';
+    pacImageL.src = 'pacmanL.jpg';
+    pacImageU.src = 'pacmanU.jpg';
+    pacImageD.src = 'pacmanD.jpg';
+    clockImg.src = 'clock.png';
+    heartImg.src = 'heart.jpg';
+    candy50.src = 'candy50.png';
+    monsterRED.src = 'monsterRED.jpg';
+    monsterBLUE.src = 'monsterBLUE.jpg';
+    monsterGREEN.src = 'monsterGREEN.jpg';
+    monsterYELLOW.src = 'monsterYELLOW.jpg';
     var clockPlace = findRandomEmptyCell(board);
     board[clockPlace[0]][clockPlace[1]] = 8;
     interval = setInterval(UpdatePosition, 150);
@@ -230,22 +252,15 @@ function Draw() {
             center.y = j * 60 + 30;
             if (board[i][j] == 2) { //pacman
                 context = canvas.getContext('2d');
-                var pacImageR = new Image();
-                var pacImageL = new Image();
-                var pacImageU = new Image();
-                var pacImageD = new Image();
+
                 //checks what was the last move's direction. adds the correct image
                 if (pacDirection == 4) {
-                    pacImageR.src = 'pacmanR.jpg';
                     context.drawImage(pacImageR, center.x - 23, center.y - 20, 45, 45);
                 } else if (pacDirection == 3) {
-                    pacImageL.src = 'pacmanL.jpg';
                     context.drawImage(pacImageL, center.x - 23, center.y - 20, 45, 45);
                 } else if (pacDirection == 1) {
-                    pacImageU.src = 'pacmanU.jpg';
                     context.drawImage(pacImageU, center.x - 23, center.y - 20, 45, 45);
                 } else if (pacDirection == 2) {
-                    pacImageD.src = 'pacmanD.jpg';
                     context.drawImage(pacImageD, center.x - 23, center.y - 20, 45, 45);
                 }
             } else if (board[i][j] == 4) { //walls
@@ -269,18 +284,14 @@ function Draw() {
                 context.fillStyle = twenty_five_point_color_value; //color
                 context.fill();
             } else if (board[i][j] == 8) { // a clock
-                var clockImg = new Image();
-                clockImg.src = 'clock.png';
                 context.drawImage(clockImg, i * 60 + 7, j * 60 + 10, 40, 45);
 
             } else if (board[i][j] == 9) { // a heart
-                var heartImg = new Image();
-                heartImg.src = 'heart.jpg';
+
                 context.drawImage(heartImg, i * 60 + 7, j * 60 + 10, 50, 45);
             }
             if (!eatCandy) {
-                var candy50 = new Image();
-                candy50.src = 'candy50.png';
+
                 context.drawImage(candy50, specialBall.i * 60 + 7, specialBall.j * 60 + 10, 45, 45);
             }
         }
@@ -289,23 +300,15 @@ function Draw() {
     //draws all monsters in the game:
     context = canvas.getContext('2d');
     if (monsterRED_X != -1) { //means this monster exists in the game.
-        var monsterRED = new Image();
-        monsterRED.src = 'monsterRED.jpg';
         context.drawImage(monsterRED, monsterRED_X * 60 + 7, monsterRED_Y * 60 + 10, 45, 45);
     }
     if (monsterBLUE_X != -1) {
-        var monsterBLUE = new Image();
-        monsterBLUE.src = 'monsterBLUE.jpg';
         context.drawImage(monsterBLUE, monsterBLUE_X * 60 + 7, monsterBLUE_Y * 60 + 10, 45, 45);
     }
     if (monsterGREEN_X != -1) {
-        var monsterGREEN = new Image();
-        monsterGREEN.src = 'monsterGREEN.jpg';
         context.drawImage(monsterGREEN, monsterGREEN_X * 60 + 7, monsterGREEN_Y * 60 + 10, 45, 45);
     }
     if (monsterYELLOW_X != -1) {
-        var monsterYELLOW = new Image();
-        monsterYELLOW.src = 'monsterYELLOW.jpg';
         context.drawImage(monsterYELLOW, monsterYELLOW_X * 60 + 7, monsterYELLOW_Y * 60 + 10, 45, 45);
     }
     if (!isAnyCandyLeft()) {
