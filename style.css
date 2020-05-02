@@ -2,6 +2,8 @@ body {
     background-color: #ed64a261;
     font-family: "Comic Sans MS", cursive, sans-serif;
     font-weight: normal;
+    background-color: #008080;
+    font-family: calibri;
     font-size: 100%;
     text-align: center;
     -webkit-animation: bgcolor 20s infinite;
@@ -13,6 +15,7 @@ body {
 .navbar {
     width: 100%;
     background-color: #ed64a261;
+    background-color: #008B8B;
     overflow: auto;
     float: center;
     position: fixed;
@@ -45,6 +48,7 @@ h1 {
 
 .navbar a:hover {
     background-color: rgb(247, 179, 216);
+    background-color: #7FFFD4;
 }
 
 
@@ -149,7 +153,17 @@ pppp {
     text-align: center;
     font-size: 30px;
     font-family: "Comic Sans MS", cursive, sans-serif
+    background-color: #6495ED;
+    font-size: 20px;
+}
 
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333333;
+    text-align: center;
 }
 
 li {
@@ -166,6 +180,11 @@ li a {
 
 li a:hover {
     background-color: #df498ccb;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #111111;
 }
 
 
@@ -213,6 +232,7 @@ li a:hover {
     float: right;
     font-size: 28px;
     font-weight: normal;
+    font-weight: bold;
 }
 
 .close:hover,
@@ -239,4 +259,19 @@ li a:hover {
    z-index: 102;
    font-family: Verdana;
    font-size: 10pt;
+.web_dialog {
+    display: none;
+    position: fixed;
+    width: 380px;
+    height: 200px;
+    top: 50%;
+    left: 50%;
+    margin-left: -190px;
+    margin-top: -100px;
+    background-color: #ffffff;
+    border: 2px solid #336699;
+    padding: 0px;
+    z-index: 102;
+    font-family: Verdana;
+    font-size: 10pt;
 }
