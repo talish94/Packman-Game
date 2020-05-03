@@ -306,9 +306,6 @@ function Draw() {
     if (monsterYELLOW_X != -1) {
         context.drawImage(monsterYELLOW, monsterYELLOW_X * 60 + 7, monsterYELLOW_Y * 60 + 10, 45, 45);
     }
-    if (!isAnyCandyLeft()) {
-        finishGame();
-    }
 }
 
 function UpdatePosition() {
@@ -381,6 +378,11 @@ function UpdatePosition() {
         updateMonstersInterval = 0;
     }
 
+    if (!isAnyCandyLeft()) {
+        Draw();
+        finishGame();
+    }
+
     // losing, still have more time to play, and more candies to eat, but life is over. 
     if (life == 0) {
         window.clearInterval(interval);
@@ -389,12 +391,10 @@ function UpdatePosition() {
         window.alert("Loser!");
         lblLife.value = 0;
         document.getElementById("newGame").style.display = "block";
-
+      
     } else {
         Draw();
     }
-
-
 }
 
 function isAnyCandyLeft() {
