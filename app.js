@@ -200,7 +200,7 @@ function Start() {
     monsterYELLOW.src = 'monsterYELLOW.jpg';
     var clockPlace = findRandomEmptyCell(board);
     board[clockPlace[0]][clockPlace[1]] = 8;
-    interval = setInterval(UpdatePosition, 150);
+    interval = setInterval(UpdatePosition, 100);
     startMusic();
     musicInterval = setInterval(startMusic, 60000);
 }
@@ -349,7 +349,6 @@ function UpdatePosition() {
         specialBall.i = -1;
         specialBall.j = -1;
         score = score + 50;
-        //window.clearInterval(specialBallInterval);
         eatCandy = true;
 
     } else if (board[shape.i][shape.j] == 8) {
@@ -361,7 +360,6 @@ function UpdatePosition() {
         let passedTime = (realTimeIs - start_time) / 1000; // seconds
         let leftTimeToPlay = (game_time_value - passedTime) * 1000;
         gameIsOnInterval = setInterval(finishGame, parseInt(leftTimeToPlay));
-        //Draw();
 
     } else if (board[shape.i][shape.j] == 9) { // an heart
         life++;
@@ -370,28 +368,28 @@ function UpdatePosition() {
     } else if ((shape.i == monsterRED_X && shape.j == monsterRED_Y) || (shape.i == monsterYELLOW_X && shape.j == monsterYELLOW_Y) ||
         (shape.i == monsterBLUE_X && shape.j == monsterBLUE_Y) || (shape.i == monsterGREEN_X && shape.j == monsterGREEN_Y)) { //got eaten by any monster
         startNewRound();
-        //Draw();
     }
     board[shape.i][shape.j] = 2;
     var currentTime = new Date();
     time_elapsed = (currentTime - start_time) / 1000;
-    if (updateMonstersInterval == 5) {
+
+    if (updateMonstersInterval == 7) {
         moveMonsters2();
         if (!eatCandy) {
             moveSpeicalBall();
         }
         updateMonstersInterval = 0;
     }
-    // losing, still have more time to play,and more candies to eat, but life is over. 
+
+    // losing, still have more time to play, and more candies to eat, but life is over. 
     if (life == 0) {
         window.clearInterval(interval);
         window.clearInterval(gameIsOnInterval);
-        //window.clearInterval(specialBallInterval);
-        //window.clearInterval(monstersInterval);
         stopMusic();
         window.alert("Loser!");
         lblLife.value = 0;
         document.getElementById("newGame").style.display = "block";
+
     } else {
         Draw();
     }
@@ -426,6 +424,7 @@ function finishGame() {
     }
     document.getElementById("newGame").style.display = "block";
 }
+
 // shows the choosen page 
 function showSettings() {
     document.getElementById("settings").style.display = "block";
