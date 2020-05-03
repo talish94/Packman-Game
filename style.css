@@ -136,8 +136,8 @@ pp {
     font-weight: normal;
     font-size: 15px;
     font-family: "Comic Sans MS", cursive, sans-serif
-
 }
+
 ppp {
     text-align: center;
     font-weight: normal;
@@ -150,6 +150,13 @@ pppp {
     font-size: 30px;
     font-family: "Comic Sans MS", cursive, sans-serif
 
+}
+
+.center {
+    text-align: center;
+    font-weight: bold;
+    font-size: 17px;
+    font-family: "Comic Sans MS", cursive, sans-serif
 }
 
 li {

@@ -203,11 +203,6 @@ function Start() {
     interval = setInterval(UpdatePosition, 150);
     startMusic();
     musicInterval = setInterval(startMusic, 60000);
-
-    // monstersInterval = setInterval(moveMonsters, 700);
-    //monstersInterval = setInterval(moveMonsters2, 700);
-    //specialBallInterval = setInterval(moveSpeicalBall, 700);
-
 }
 
 function findRandomEmptyCell(board) {
@@ -933,7 +928,6 @@ function hardMove() {
             monsterGREEN_X++;
         }
     }
-
 }
 
 function clickOnMenu() {
